@@ -115,7 +115,7 @@ const UserCreateDrawer = ({ open, onClose }) => {
           >
             {(form) => (
               <Form className="space-y-3 mt-6">
-                {/* <BasicInfo form={form}></BasicInfo> */}
+                <BasicInfo form={form}></BasicInfo>
 
                 <div className="flex items-center justify-between pt-10">
                   <div className="space-x-2.5">
