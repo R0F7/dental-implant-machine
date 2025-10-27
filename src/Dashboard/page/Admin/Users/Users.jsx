@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import PageLocation from "../../../../component/PageLocation/PageLocation";
-import { IoIosSearch } from "react-icons/io";
-import { HiOutlineSearch } from "react-icons/hi";
-import { GoPlus } from "react-icons/go";
 import Table from "../../../../component/Table/Table";
 import { createColumnHelper } from "@tanstack/react-table";
 import UserCreateDrawer from "../../../../component/UserCreateDrawer/UserCreateDrawer";
-import Drawer from "../../../../component/UserCreateDrawer/UserCreateDrawer";
 import useGetSecureData from "@/hooks/useGetSecureData";
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -14,17 +10,31 @@ import { useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import { userInitialValues } from "@/schema/user/userInitialValues";
+import TableHeader from "@/component/TableHeader/TableHeader";
 
 const Users = () => {
   const columnHelper = createColumnHelper();
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const axiosSecure = useAxiosSecure();
-  const [initialSchema, setInitialSchema] = useState({});
+  const [initialSchema, setInitialSchema] = useState(userInitialValues);
   const { data: users, refetch: refetch_users } = useGetSecureData(
     "users",
-    "/users"
+    `/users`
   );
-  // console.log(users);
+
+  const filteredClients = users.filter((c) => {
+    const searchText = search.toLowerCase();
+
+    return (
+      c.name.toLowerCase().includes(searchText) ||
+      c.email.toLowerCase().includes(searchText) ||
+      c.role.toLowerCase().includes(searchText) ||
+      c.phone.includes(searchText) ||
+      c.city.toLowerCase().includes(searchText) ||
+      c.province.toLowerCase().includes(searchText)
+    );
+  });
 
   const { mutateAsync: user_delete } = useMutation({
     mutationFn: async (id) => {
@@ -39,8 +49,6 @@ const Users = () => {
       toast.error("Try again");
     },
   });
-
-  // console.log(selectedUserInfo);
 
   const columns = [
     columnHelper.accessor("name", {
@@ -133,45 +141,21 @@ const Users = () => {
       <PageLocation addresses={["Admin", "Users"]}></PageLocation>
 
       <div className="p-6 w-full bg-white rounded-md">
-        <div className="flex items-center justify-between mb-5">
-          <h1 className="title">users</h1>
+        <TableHeader
+          title={"users"}
+          label={"user"}
+          search={search}
+          setSearch={setSearch}
+          setOpen={setOpen}
+          setInitialSchema={setInitialSchema}
+          initialValues={userInitialValues}
+        ></TableHeader>
 
-          <div className="flex items-center gap-4">
-            <form className="flex items-center ">
-              <div className="relative w-[300px]">
-                <input
-                  type="search"
-                  placeholder="Search clients..."
-                  //   value={search}
-                  //   onChange={(e) => setSearch(e.target.value)}
-                  className="border border-r-0 py-2 pl-7"
-                />
-                <HiOutlineSearch
-                  size={15}
-                  className="absolute top-1/2 -translate-y-1/2 left-2.5 text-gray-400"
-                />
-              </div>
-              <button
-                type="submit"
-                className="border w-8 h-8 flex items-center justify-center rounded-md rounded-l-none hover:border-[#1677FF] text-gray-600 submit-button"
-              >
-                <HiOutlineSearch />
-              </button>
-            </form>
-
-            <button
-              onClick={() => {
-                setOpen(true);
-                setInitialSchema(userInitialValues);
-              }}
-              className="flex items-center gap-1 border rounded-full px-4 py-1.5 text-sm bg-[#247CFF] text-white"
-            >
-              <GoPlus /> Add User
-            </button>
-          </div>
-        </div>
-
-        <Table key={"all-users"} columns={columns} data={users}></Table>
+        <Table
+          key={"all-users"}
+          columns={columns}
+          data={filteredClients}
+        ></Table>
 
         <UserCreateDrawer
           open={open}

@@ -392,7 +392,13 @@ import { createColumnHelper } from "@tanstack/react-table";
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
-const ClientAssignment = ({ form }) => {
+const ClientAssignment = ({
+  form,
+  label,
+  createUser = true,
+  noticeType,
+  notice,
+}) => {
   const [open, setOpen] = useState(false);
   const [clients, setClients] = useState([]);
   const dropdownRef = useRef(null);
@@ -496,9 +502,11 @@ const ClientAssignment = ({ form }) => {
   return (
     <div>
       <h4 className="text-gray-900 mb-4 text-lg font-medium">
-        Client Assignment
+        {createUser && "Client Assignment"}
       </h4>
-      <h6 className="text-gray-700 mb-2 text-sm font-medium">Assign Clients</h6>
+      <h6 className="text-gray-700 mb-2 text-sm font-medium">
+        {label ? label : "Assign Clients"}
+      </h6>
 
       {/* Client Selector */}
       <div className="mb-4 relative" ref={dropdownRef}>
@@ -546,9 +554,11 @@ const ClientAssignment = ({ form }) => {
         </div>
       )}
 
-      <Notice>
-        Multiple clients can be assigned to a user. This determines which client
-        data the user can access.
+      <Notice type={noticeType}>
+        {notice
+          ? notice
+          : `Multiple clients can be assigned to a user. This determines which client
+        data the user can access.`}
       </Notice>
     </div>
   );

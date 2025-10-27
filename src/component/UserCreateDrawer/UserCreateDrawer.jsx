@@ -12,12 +12,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import Drawer from "../Drawer/Drawer";
 
-const UserCreateDrawer = ({
-  open,
-  onClose,
-  initialValues,
-  refetch_users,
-}) => {
+const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
   const [step, setStep] = useState(1);
   const [selectedClients, setSelectedClients] = useState([]);
   const { loading, setLoading } = useAuth();
@@ -25,7 +20,7 @@ const UserCreateDrawer = ({
 
   const { mutateAsync: create_user } = useMutation({
     mutationFn: async (info) => {
-      const { data } = await axiosSecure.post("/create-user", info);
+      const { data } = await axiosSecure.post("/user/onboard", info);
       return data;
     },
     onSuccess: () => {
@@ -66,7 +61,6 @@ const UserCreateDrawer = ({
   const handlePrevious = () => setStep((prev) => prev - 1);
 
   const handleSubmit = async (values) => {
-    console.log("✅ Final Values:", { ...values, selectedClients });
     const full_name = values.first_name + " " + values.last_name;
 
     const formData = {
@@ -76,6 +70,7 @@ const UserCreateDrawer = ({
 
     try {
       await create_user(formData);
+      // resetForm();
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data.error);
@@ -130,6 +125,7 @@ const UserCreateDrawer = ({
               handleNext(formikHelpers);
             } else {
               handleSubmit(values);
+              formikHelpers.resetForm();
             }
           }}
         >
