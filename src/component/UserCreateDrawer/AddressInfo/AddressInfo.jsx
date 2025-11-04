@@ -33,24 +33,10 @@ const AddressInfo = ({ form }) => {
         placeholder={"Enter City"}
       ></Input>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1.5">
         <label htmlFor="state" className="label-inline">
           State/Province
         </label>
-        {/* <select name="province" defaultValue="" className="p-0 text-sm">
-          <option value="" disabled>
-            Select state/province
-          </option>
-          {usStates?.map((province, idx) => (
-            <option
-              className="text-sm text-primary"
-              key={idx}
-              value={province.name}
-            >
-              {province.name} ({province.code})
-            </option>
-          ))}
-        </select> */}
 
         <Select
           onValueChange={(value) => {

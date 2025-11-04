@@ -60,7 +60,7 @@ const userValidationSchema = {
 
   3: Yup.object({
     role: Yup.string().required("Role is required"),
-     permissions: Yup.object()
+    permissions: Yup.object()
       .test(
         "at-least-one",
         "At least one permission must be selected",

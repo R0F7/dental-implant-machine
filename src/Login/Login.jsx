@@ -10,11 +10,12 @@ import useAuth from "@/hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import loginValidationSchema from "@/schema/login/loginValidationSchema";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [toggle, setToggle] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const { signIn } = useAuth();
+  const { signIn, sendPassMail } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const from = location?.state || "/";
@@ -33,6 +34,29 @@ const Login = () => {
       navigate(from);
     } catch (error) {
       setErrMsg(error.message.split("/")[1].replace(")", ""));
+    }
+  };
+
+  const handleForgotPass = async () => {
+    const email = document.getElementById("email").value;
+
+    if (!email) {
+      toast.error("Please enter your email first");
+      return;
+    }
+
+    try {
+      await sendPassMail(email);
+      toast.success("Password reset link sent! Check your email inbox.");
+    } catch (error) {
+      console.error("Error sending reset email:", error);
+      if (error.code === "auth/user-not-found") {
+        toast.error("No user found with that email.");
+      } else if (error.code === "auth/invalid-email") {
+        toast.error("Invalid email address.");
+      } else {
+        toast.error("Something went wrong. Try again later.");
+      }
     }
   };
 
@@ -126,9 +150,13 @@ const Login = () => {
                   <Checkbox id="remember" defaultChecked />
                   Remember me
                 </label>
-                <a href="#" className="text-sm text-blue-600 hover:underline">
+                <button
+                  type="button"
+                  onClick={handleForgotPass}
+                  className="text-sm text-blue-600 hover:underline"
+                >
                   Forgot Password?
-                </a>
+                </button>
               </div>
 
               <button

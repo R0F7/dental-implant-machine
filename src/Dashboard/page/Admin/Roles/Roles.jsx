@@ -75,6 +75,8 @@ const Roles = () => {
 
     for (const key in obj) {
       const value = obj[key];
+      if (key === "admin" || key === "dashboard" || key === "selectAll") continue;
+
       if (typeof obj[key] === "object" && value !== null) {
         count += countTruthyFields(value);
       } else if (value) {

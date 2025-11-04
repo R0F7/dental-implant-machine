@@ -6,6 +6,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { LiaUser } from "react-icons/lia";
 import { LuShieldCheck } from "react-icons/lu";
 import { RiFileSettingsLine } from "react-icons/ri";
+import { BiClinic } from "react-icons/bi";
 
 export const dashboardRoutes = [
   {
@@ -42,6 +43,11 @@ export const dashboardRoutes = [
         label: "Row Level Settings",
         icon: RiFileSettingsLine,
         path: "row-level-settings",
+      },
+      {
+        label: "Add clinic",
+        icon: BiClinic,
+        path: "add-clinic",
       },
     ],
   },

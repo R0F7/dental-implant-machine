@@ -1,11 +1,20 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 import { PiAsterisk } from "react-icons/pi";
 
-const Input = ({ label, name, type, placeholder, form, required }) => {
+const Input = ({
+  label,
+  name,
+  type,
+  placeholder,
+  form,
+  required,
+  className,
+}) => {
   const { handleChange, handleBlur, values, errors, touched } = form;
 
   return (
-    <div className="w-full space-y-1.5">
+    <div className={cn("w-full space-y-1.5", className)}>
       <label htmlFor={name} className="label-inline">
         {required && (
           <span className="text-red-500">
@@ -30,7 +39,7 @@ const Input = ({ label, name, type, placeholder, form, required }) => {
         }`}
       />
 
-       {errors[name] && (touched[name] || values[name]) && (
+      {errors[name] && (touched[name] || values[name]) && (
         <div className="text-sm text-red-500">{errors[name]}</div>
       )}
     </div>

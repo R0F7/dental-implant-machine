@@ -15,7 +15,7 @@ const Header = ({ toggle, setToggle }) => {
   const [clients, setClients] = useState([]);
   const [selectedClients, setSelectedClients] = useState([]);
   const dropdownRef = useRef(null);
-  const { user, logOut } = useAuth();
+  const { user, logOut, db_user } = useAuth();
 
   useEffect(() => {
     const demoClients = Array.from({ length: 896 }, (_, i) => ({
@@ -100,12 +100,9 @@ const Header = ({ toggle, setToggle }) => {
           {/* profile */}
           <div className="relative cursor-pointer group">
             <div className="flex items-center gap-1">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center">
-                <img
-                  className="rounded-full w-full h-full"
-                  src={userPlaceholder}
-                  alt="userPlaceholder"
-                />
+              <div className="w-10 h-10 bg-blue-500 text-white text-sm rounded-full flex items-center justify-center">
+                {db_user?.first_name[0] + " "}
+                {db_user?.last_name[0]}
               </div>
               <FaAngleDown className="text-white group-hover:rotate-180 transition duration-200" />
             </div>
@@ -114,20 +111,20 @@ const Header = ({ toggle, setToggle }) => {
               <li className="px-2 py-2 border-b mb-1 flex justify-center cursor-not-allowed">
                 <div>
                   <h4 className="font-medium text-gray-900 text-sm">
-                    Super Admin
+                    {db_user?.name}
                   </h4>
                   <p className="text-sm text-gray-500 truncate">
-                    admin@dim.com
+                    {user?.email}
                   </p>
                 </div>
               </li>
 
-              <li className="flex items-center gap-2 w-[150px] px-2 py-1 text-sm hover:bg-gray-100 rounded-md text-primary">
+              <li className="flex items-center gap-2 w-full px-2 py-1 text-sm hover:bg-gray-100 rounded-md text-primary">
                 <LiaUser />
-                <Link>Edit Profile</Link>
+                <Link to="/profile">Edit Profile</Link>
               </li>
 
-              <li className="flex items-center gap-2 w-[150px] px-2 py-1 text-sm hover:bg-gray-100 rounded-md text-primary">
+              <li className="flex items-center gap-2 w-full px-2 py-1 text-sm hover:bg-gray-100 rounded-md text-primary">
                 <IoLogOutOutline />
                 <button onClick={logOut}>Logout</button>
               </li>

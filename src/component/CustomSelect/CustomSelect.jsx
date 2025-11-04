@@ -15,12 +15,15 @@ const CustomSelect = ({
   handleRoleChange,
 }) => {
   const { values, errors, touched, setFieldValue } = form;
+  console.log(values[name]);
 
   return (
     <>
       <Select
         onValueChange={(value) => {
-          setFieldValue(name, value); handleRoleChange(value); 
+          setFieldValue(name, value);
+          handleRoleChange(value);
+          setTimeout(() => form.setFieldTouched(name, true), 0);
         }}
         value={values[name]}
       >
@@ -36,7 +39,7 @@ const CustomSelect = ({
         </SelectContent>
       </Select>
 
-      {errors[name] && (touched[name] || values[name]) && (
+      {errors[name] && touched[name] && (
         <div className="text-sm text-red-500 mt-1.5">{errors[name]}</div>
       )}
     </>

@@ -260,7 +260,7 @@ const Table = ({ columns, data, pagination, nestedColumns, nestedData }) => {
                 {/* nested row */}
                 {nestedData && nestedData.row_id == row.id && (
                   <tr className="bg-gray-50">
-                    <td colSpan={columns.length} className="p-6">
+                    <td colSpan={columns?.length} className="p-6">
                       {nestedData?.data?.length > 0 ? (
                         <Table data={nestedData.data} columns={nestedColumns} />
                       ) : (

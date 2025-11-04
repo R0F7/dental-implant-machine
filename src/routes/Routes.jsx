@@ -8,6 +8,9 @@ import Roles from "../Dashboard/page/Admin/Roles/Roles";
 import RowSettings from "../Dashboard/page/Admin/RowSettings/RowSettings";
 import Login from "@/Login/Login";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import Profile from "@/Dashboard/page/Profile/Profile";
+import AddClinic from "@/Dashboard/page/Admin/AddClinic/AddClinic";
 
 export const router = createBrowserRouter([
   {
@@ -29,16 +32,38 @@ export const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <Users></Users>,
+        element: (
+          <AdminRoute>
+            <Users></Users>
+          </AdminRoute>
+        ),
       },
       {
         path: "roles",
-        element: <Roles></Roles>,
+        element: (
+          <AdminRoute>
+            <Roles></Roles>
+          </AdminRoute>
+        ),
       },
       {
         path: "row-level-settings",
-        element: <RowSettings></RowSettings>,
+        element: (
+          <AdminRoute>
+            <RowSettings></RowSettings>
+          </AdminRoute>
+        ),
       },
+
+      {
+        path: "/profile",
+        element: <Profile></Profile>,
+      },
+
+      {
+        path:"add-clinic",
+        element:<AddClinic></AddClinic>
+      }
     ],
   },
   {

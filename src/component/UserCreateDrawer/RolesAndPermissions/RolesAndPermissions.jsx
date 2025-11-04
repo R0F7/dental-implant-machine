@@ -487,28 +487,37 @@
 
 // export default RolesAndPermissions;
 
-
 import CustomSelect from "@/component/CustomSelect/CustomSelect";
 import Notice from "@/component/Notice/Notice";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { PiAsterisk } from "react-icons/pi";
 import PermissionGroup from "./PermissionGroup/PermissionGroup";
-import { rolePermissions } from "./rolePermissions";
+// import { rolePermissions } from "./rolePermissions";
+import useGetSecureData from "@/hooks/useGetSecureData";
 
 const RolesAndPermissions = ({ form }) => {
   const { values, setFieldValue } = form;
-  const permissions = values.permissions ||{};
+  const permissions = values.permissions || {};
   const isAdmin = values.role === "Admin";
 
-  const role = [
-    "Manager",
-    "Customer",
-    "Employee",
-    "Growth Specialist",
-    "Department Manager",
-    "Admin",
-  ];
+  // const role = [
+  //   "Manager",
+  //   "Customer",
+  //   "Employee",
+  //   "Growth Specialist",
+  //   "Department Manager",
+  //   "Admin",
+  // ];
+
+  const { data: role_info } = useGetSecureData("role_info", "/roles");
+
+  const rolePermissions = {};
+  const role = role_info.map((role) => {
+    rolePermissions[role.name] = role.permissions;
+    return role.name;
+  });
+  // console.log(rolePermissions);
 
   const handleSelectAll = (checked) => {
     const basePermissions = {
@@ -532,10 +541,6 @@ const RolesAndPermissions = ({ form }) => {
   const handlePermission = (name, checked) => {
     setFieldValue(`permissions.${name}`, checked);
   };
-
-  // const handleSubPermission = (parent, sub) => (checked) => {
-  //   setFieldValue(`permissions.${parent}.${sub}`, checked);
-  // };
 
   const handleRoleChange = (selectedRole) => {
     setFieldValue("role", selectedRole);
@@ -620,7 +625,11 @@ const RolesAndPermissions = ({ form }) => {
             onPermissionChange={(updated) =>
               setFieldValue("permissions", { ...permissions, ...updated })
             }
-            subPermissions={["leadsOverTime", "goalAchievement", "masterReportOverview"]}
+            subPermissions={[
+              "leadsOverTime",
+              "goalAchievement",
+              "masterReportOverview",
+            ]}
           />
 
           {/* Admin dropdown */}
@@ -662,8 +671,8 @@ const RolesAndPermissions = ({ form }) => {
           !permissions.amberAlerts &&
           !permissions.masterReport && (
             <Notice bg={"#FEFCE8"} type={"Warning"} color={"#854D0E"}>
-              No permissions are currently selected. At least one permission must
-              be assigned to create/update the user.
+              No permissions are currently selected. At least one permission
+              must be assigned to create/update the user.
             </Notice>
           )}
       </div>

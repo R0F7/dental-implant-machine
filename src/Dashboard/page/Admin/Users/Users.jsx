@@ -81,7 +81,8 @@ const Users = () => {
         const row = info.row.original;
         return (
           <div className="flex items-center gap-0.5">
-            <h6>{row.city},</h6>
+            <h6>{row.city}</h6>
+            <span>, </span>
             <span>{row.province}</span>
           </div>
         );
@@ -90,7 +91,7 @@ const Users = () => {
       id: "location",
     }),
 
-    columnHelper.accessor("isActive", {
+    columnHelper.accessor("status", {
       cell: (info) =>
         info.getValue() && (
           <span className="border border-green-300 text-xs px-3 py-1.5 rounded-md bg-[#F6FFED] text-green-400">
