@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import dashIcon from "../../assets/logo-with-text.png";
-import userPlaceholder from "../../assets/unknown_person.jpg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaAngleDown } from "react-icons/fa";
 import { LiaUser } from "react-icons/lia";
@@ -18,14 +17,6 @@ const Header = ({ toggle, setToggle }) => {
   const { user, logOut, db_user } = useAuth();
 
   useEffect(() => {
-    const demoClients = Array.from({ length: 896 }, (_, i) => ({
-      id: i + 1,
-      name: `Client ${i + 1}`,
-    }));
-    setClients(demoClients);
-  }, []);
-
-  useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpen(false);
@@ -35,18 +26,32 @@ const Header = ({ toggle, setToggle }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+    useEffect(() => {
+    const demoClients = Array.from({ length: 20 }, (_, i) => ({
+      id: i + 1,
+      name: `Client ${i + 1}`,
+    }));
+    setClients(demoClients);
+  }, []);
+
+  // const initials = db_user?.name
+  //   .split(" ")
+  //   .filter(Boolean)
+  //   .map((n) => n[0].toUpperCase())
+  //   .join(" ");
+
   return (
-    <div className="bg-[#1A4BD2] py-2 mb-1 h-[64px] w-screen top-0 left-0 z-50 flex items-center fixed">
+    <div className="bg-[#1A4BD2] py-2 mb-1 h-[64px] w-screen top-0 left-0 flex items-center fixed z-50">
       <div
         className={`${
-          toggle ? "w-20" : "w-64"
-        } transition-all duration-300 relative h-full`}
+          toggle ? "w-0 md:w-20" : "w-64"
+        } transition-all duration-300 absolute md:relative h-full hidden md:block`}
       >
         {/* big logo */}
         <img
           src={dashIcon}
           alt="Full Logo"
-          className={`absolute left-1/2 -translate-x-1/2 w-[130px] h-[50px] brightness-0 invert 
+          className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[70x] h-[40px] md:w-[130px] md:h-[50px] brightness-0 invert 
       transition-all duration-300 ease-in-out 
       ${toggle ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}
         />

@@ -9,22 +9,17 @@ import cash from "../../../assets/imgi_6_cash-bag-icon.png";
 import LineChart from "@/component/LineChart/LineChart";
 import GoalAchieve from "@/component/GoalAchieve/GoalAchieve";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { useMutation } from "@tanstack/react-query";
-import useAxiosSecure from "@/hooks/useAxiosSecure";
-import toast from "react-hot-toast";
 import useAuth from "@/hooks/useAuth";
-import useGetSecureData from "@/hooks/useGetSecureData";
-import useAllClinics from "@/hooks/useAllClinics";
 
 const Home = () => {
   const [report, setReport] = useState({});
-  const { user, db_user: { permissions } = {} } = useAuth();
-  const axiosSecure = useAxiosSecure();
-  const { data: clinics } = useGetSecureData("clinics", "/clinics");
+  const { db_user: { permissions } = {} } = useAuth();
 
-  const { mergedData, isLoading } = useAllClinics(clinics);
-  console.log(mergedData);
-  
+
+  // const { data: clinics } = useGetSecureData("clinics", "/clinics");
+  // const { mergedData, isLoading } = useAllClinics(clinics);
+  // console.log(mergedData);
+
   // Monthly data object
   const monthlyData = {
     Jan: [],
@@ -80,43 +75,14 @@ const Home = () => {
       });
   }, []);
 
-  const { mutateAsync: add_clinic } = useMutation({
-    mutationFn: async (info) => {
-      const { data } = await axiosSecure.post("/api/sync", info);
-      // const { data } = await axiosSecure.post("/api/clinics", info);
-      return data;
-    },
-    onSuccess: () => toast.success("Clinic added successfully"),
-  });
-
-  // Frontend - Clinic Form Data Structure
-  // const clinicFormSchema = {
-  //   user: {
-  //     email: "wwwrafikhan075@gmail.com",
+  // const { mutateAsync: add_clinic } = useMutation({
+  //   mutationFn: async (info) => {
+  //     const { data } = await axiosSecure.post("/api/sync", info);
+  //     // const { data } = await axiosSecure.post("/api/clinics", info);
+  //     return data;
   //   },
-  //   clinicName: "Dental Wellness Center", // string (required)
-  //   bearerToken: "pit-952e1d8e-3016-4eaf-a45a-f4bda3a2b7cc", // string (required)
-  //   locationId: "HgiBOaKxNEO2RVYbuTf1", // string (required)
-  //   version: "2021-07-28", // string (optional)
-  //   timezone: "EST", // string (optional)
-  //   owner: "Dr. John Smith", // string (required)
-  //   adSpend: 22000, // number (optional)
-  //   mgmtFee: 4000, // number (optional)
-  //   avgTxValue: 25000, // number (optional)
-  // };
-
-  // const post_clinic = async (info) => {
-  //   try {
-  //     const result = await add_clinic({
-  //       clinicId: "69024c7ac065778ecb925f89",
-  //       year: 2010,
-  //       month: 2,
-  //     });
-  //     console.log(result);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  //   onSuccess: () => toast.success("Clinic added successfully"),
+  // });
 
   function makeReport(data) {
     // Initialize metrics
@@ -405,7 +371,7 @@ const Home = () => {
       </div>
       {/* KPIs */}
       {!!permissions?.dashboard && (
-        <div className="grid grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <KPI
             label={"leads"}
             img={presentation}
@@ -446,7 +412,7 @@ const Home = () => {
         </div>
       )}
 
-      <div className="w-full flex gap-6 mt-6">
+      <div className="w-[calc(100vw-50px)] md:w-full flex flex-col lg:flex-row gap-6 mt-6">
         {!!permissions?.dashboard && (
           <div className="flex-1 bg-white rounded-md shadow">
             <h4 className="font-semibold text-lg p-4 border-b text-slate-800">
@@ -457,7 +423,11 @@ const Home = () => {
         )}
 
         {!!permissions?.dashboardSubs?.goalAchievement && (
-          <div className={`${permissions?.dashboard ? "w-[35%]" : "w-full"}`}>
+          <div
+            className={`${
+              permissions?.dashboard ? "w-full lg:w-[35%]" : "w-full"
+            }`}
+          >
             <GoalAchieve></GoalAchieve>
           </div>
         )}
@@ -481,68 +451,3 @@ const Home = () => {
 };
 
 export default Home;
-
-//   axios
-//     .request(config)
-//     .then((response) => {
-//       const data = response.data;
-//       makeReport(data.aggregations.pipelines.buckets);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-
-//   function makeReport(data) {
-//     // console.log(data);
-//     console.log(data.map(d => d.pipelines.hits.hits));
-
-//     const Lifetime_Tx_Value = data.reduce(
-//       (sum, d) => d.revenues.value + sum,
-//       0
-//     );
-
-//     const info = {
-//       Lifetime_Tx_Value,
-//     };
-//     console.log(info);
-//   }
-
-//   function makeReport(data) {
-//     // console.log(data);
-
-//     let leadCount = 0;
-//     const lostCount = calculateStatus(data, "lost");
-//     const openCount = calculateStatus(data, "open");
-
-//     const Lifetime_Tx_Value = data.reduce(
-//       (sum, d) => d.revenues.value + sum,
-//       0
-//     );
-
-//     for (const d of data) {
-//       d.pipelines.hits.hits.forEach((h) => {
-//         // console.log(h._source.type);
-//         if (h._source.type === "lead") {
-//           leadCount++;
-//         }
-//       });
-//     }
-//     const info = {
-//       Lifetime_Tx_Value,
-//       leadCount,
-//       lostCount,
-//       openCount,
-//     };
-//     console.log(info);
-//   }
-
-//   const calculateStatus = (data, status) => {
-//     let count = 0;
-//     for (const d of data) {
-//       const result = d.pipelines.hits.hits.filter(
-//         (h) => h._source.status === status
-//       );
-//       count += result.length;
-//     }
-//     return count;
-//   };

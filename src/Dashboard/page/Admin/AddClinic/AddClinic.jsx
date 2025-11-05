@@ -72,7 +72,7 @@ const AddClinic = () => {
   ];
 
   return (
-    <div>
+    <div className="bg-white p-6 rounded-md">
       <TableHeader
         label={"clinic"}
         title={"clinic"}
@@ -95,7 +95,7 @@ const AddClinic = () => {
             onSubmit={add_clinic}
           >
             {(form) => (
-              <Form className="m-6 grid grid-cols-3 gap-4">
+              <Form className="m-6 grid md:grid-cols-3 gap-4">
                 <Input
                   form={form}
                   label={"Name"}

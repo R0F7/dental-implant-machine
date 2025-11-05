@@ -90,7 +90,7 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
   return (
     <Drawer onClose={onClose} open={open} name={"Add User"}>
       <div className="bg-white m-6 p-6 rounded-md shadow-md verflow-y-auto">
-        <ul className="flex items-center justify-between md:flex-wrap md:gap-4 lg:flex-nowrap">
+        <ul className="flex items-center justify-between flex-wrap gap-4 lg:flex-nowrap">
           {navOptions.map((option, idx) => (
             <li key={idx} className="flex items-center w-full">
               <div className="flex items-center gap-2">

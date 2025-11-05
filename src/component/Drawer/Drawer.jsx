@@ -7,14 +7,14 @@ const Drawer = ({ open, onClose, children, name }) => {
         open ? "visible opacity-100" : "invisible opacity-0"
       }`}
     >
-      {/* Overlay (40% transparent) */}
+      {/* Overlay */}
       <div
         className="absolute inset-0 bg-black bg-opacity-40"
         onClick={onClose}
       ></div>
-      {/* Drawer  (60% width) */}
+      {/* Drawer */}
       <div
-        className={`absolute right-0 top-0 h-full bg-[#F5F5F5] w-[63%] shadow-xl transform transition-transform duration-300 ${
+        className={`absolute right-0 top-0 h-full bg-[#F5F5F5] w-full md:w-[63%] shadow-xl transform transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >

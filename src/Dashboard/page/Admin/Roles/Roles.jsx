@@ -117,7 +117,7 @@ const Roles = () => {
 
     columnHelper.accessor("permissions", {
       cell: (info) => (
-        <span className="bg-gray-100 text-gray-700 rounded-full px-3 py-0.5 inline-block">
+        <span className="bg-gray-100 text-gray-700 rounded-full px-3 py-0.5 text-center inline-block">
           {countTruthyFields(info.getValue()) + " Features"}
         </span>
       ),
@@ -129,7 +129,7 @@ const Roles = () => {
         const role = info.getValue();
         const users = findUserByRole(role);
         return (
-          <span className="bg-blue-100 text-blue-700 rounded-full px-3 py-0.5 inline-block font-medium">
+          <span className="bg-blue-100 text-blue-700 rounded-full px-3 py-0.5 text-center inline-block font-medium">
             {users + " Users"}
           </span>
         );

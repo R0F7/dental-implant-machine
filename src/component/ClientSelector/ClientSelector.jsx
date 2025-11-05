@@ -264,7 +264,7 @@ const ClientSelector = ({
             exit={{ opacity: 0, scaleY: 0 }}
             transition={{ duration: 0.25 }}
             style={{ originY: 0 }}
-            className="w-[575px] h-[300px] overflow-y-auto bg-white shadow-xl border rounded-lg p-2 z-50"
+            className="md:w-[575px] h-[300px] overflow-y-auto bg-white shadow-xl border rounded-lg p-2 z-50"
           >
             {/* Search */}
             <div className="relative mb-2 m-1">

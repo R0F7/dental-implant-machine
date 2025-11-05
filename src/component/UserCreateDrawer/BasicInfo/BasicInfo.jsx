@@ -5,7 +5,6 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
 const BasicInfo = ({ form }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
 

@@ -424,7 +424,7 @@ const ClientAssignment = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 🧠 Handle Permission Change
+  // Handle Permission Change
   const handlePermissionChange = (id, type, value) => {
     const updatedClients = form.values.selectedClients.map((client) =>
       client.id === id
@@ -440,7 +440,7 @@ const ClientAssignment = ({
     form.setFieldValue("selectedClients", updatedClients);
   };
 
-  // 🧱 Table Columns
+  // Table Columns
   const columns = [
     columnHelper.accessor("name", {
       cell: (info) => <span>{info.getValue()}</span>,
@@ -509,7 +509,7 @@ const ClientAssignment = ({
       </h6>
 
       {/* Client Selector */}
-      <div className="mb-4 relative" ref={dropdownRef}>
+      <div className="mb-4 relative w-fit" ref={dropdownRef}>
         <button
           type="button"
           onClick={() => setOpen(!open)}

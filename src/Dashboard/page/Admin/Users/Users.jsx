@@ -37,8 +37,10 @@ const Users = () => {
   });
 
   const { mutateAsync: user_delete } = useMutation({
-    mutationFn: async (id) => {
-      const { data } = await axiosSecure.delete(`/delete-user/${id}`);
+    mutationFn: async (info) => {
+      const { data } = await axiosSecure.delete(`/delete-user/${info.id}`, {
+        data: { email: info.email },
+      });
       return data;
     },
     onSuccess: () => {
@@ -111,6 +113,7 @@ const Users = () => {
     columnHelper.accessor("_id", {
       cell: (info) => {
         const { _id, ...data } = info.row.original;
+        const details = { id:_id, email: data.email };
 
         return (
           <div className="space-x-2.5">
@@ -124,7 +127,7 @@ const Users = () => {
               <CiEdit />
             </button>
             <button
-              onClick={() => user_delete(_id)}
+              onClick={() => user_delete(details)}
               className="text-red-500 hover:bg-red-100 rounded-md p-1"
             >
               <AiOutlineDelete />
@@ -156,6 +159,7 @@ const Users = () => {
           key={"all-users"}
           columns={columns}
           data={filteredClients}
+          pagination={true}
         ></Table>
 
         <UserCreateDrawer

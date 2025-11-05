@@ -12,18 +12,18 @@ const TableHeader = ({
   initialValues,
 }) => {
   return (
-    <div className="flex items-center justify-between mb-5">
+    <div className="flex flex-col md:flex-row items-center justify-between mb-5">
       <h1 className="title">{title}</h1>
 
       <div className="flex items-center gap-4">
         <form className="flex items-center ">
-          <div className="relative w-[300px]">
+          <div className="relative lg:w-[300px]">
             <input
               type="search"
               placeholder="Search clients..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="border border-r-0 py-2 pl-7"
+              className="border border-r-0 py-2 pl-7 rounded-r-none"
             />
             <HiOutlineSearch
               size={15}
@@ -43,7 +43,7 @@ const TableHeader = ({
             setOpen(true);
             setInitialSchema(initialValues);
           }}
-          className="flex items-center gap-1 border rounded-full px-4 py-1.5 text-sm bg-[#247CFF] text-white"
+          className="flex items-center gap-1 border rounded-full md:px-4 px-2 py-1.5 text-sm bg-[#247CFF] text-white text-nowrap"
         >
           <GoPlus />
           Add {label}

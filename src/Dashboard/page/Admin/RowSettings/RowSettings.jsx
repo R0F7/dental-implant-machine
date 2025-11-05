@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -129,6 +128,7 @@ const RowSettings = () => {
               onClick={() => {
                 setInitialSchema(user);
                 setOpen(true);
+                console.log(user);
               }}
               className="flex items-center gap-1.5 bg-blue-500 text-white rounded-md px-2 py-1 text-sm scale-100 active:scale-95 transition duration-300 hover:bg-blue-400"
             >
@@ -240,7 +240,7 @@ const RowSettings = () => {
           setOpen={setOpen}
           search={search}
           setSearch={setSearch}
-          initialValues={initialSchema}
+          initialValues={userInitialValues}
           setInitialSchema={setInitialSchema}
         ></TableHeader>
 
@@ -274,21 +274,23 @@ const RowSettings = () => {
                       <RiAsterisk size={12} className="text-red-400" />
                       Select User
                     </label>
-                    <Select onValueChange={(val) => handleAccess(val)}>
+
+                    <Select
+                      onValueChange={(val) => handleAccess(val)}
+                      value={initialSchema.email || ""}
+                    >
                       <SelectTrigger id="clients" className="w-full ">
-                        <SelectValue placeholder="Select a fruit" />
+                        <SelectValue placeholder="Select a user" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectGroup>
-                          {users.map((user) => (
-                            <SelectItem value={user.email}>
-                              {user?.name}{" "}
-                              <span className="text-gray-600">
-                                ({user.email})
-                              </span>
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
+                        {users.map((user, idx) => (
+                          <SelectItem key={idx} value={user.email}>
+                            {user?.name}{" "}
+                            <span className="text-gray-600">
+                              ({user.email})
+                            </span>
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -299,7 +301,7 @@ const RowSettings = () => {
                     createUser={false}
                     noticeType={"Summary"}
                     notice={`${
-                      form.values.selectedClients.length || 0
+                      form.values?.selectedClients?.length || 0
                     } client(s) assigned with permissions`}
                   ></ClientAssignment>
 
