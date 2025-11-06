@@ -12,7 +12,7 @@ const Sidebar = ({ toggle }) => {
     isLoading,
   } = useAuth();
 
-  if (loading || isLoading) return "Loading...";
+  if (loading || isLoading) return;
 
   const perms = db_user?.permissions || {};
 

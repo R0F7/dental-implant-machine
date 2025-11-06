@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import bg from "../assets/log-in-bg.jpg";
-import logo from "../assets/logo-with-text.png";
+import logo from "../assets/dental-image-removebg-preview.png";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AiOutlineUser } from "react-icons/ai";
@@ -65,7 +65,7 @@ const Login = () => {
       className="w-full h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="bg-white rounded-lg shadow-xl  w-[512px]">
+      <div className="bg-white rounded-lg shadow-xl w-[350px] lg:w-[512px]">
         <div className="flex flex-col items-center mb- border-b pt-6 pb-3">
           <img
             src={logo}
@@ -93,7 +93,7 @@ const Login = () => {
                   onBlur={handleBlur}
                   value={values.email}
                   placeholder="Email"
-                  className={`py-6 pl-7 ${
+                  className={`lg:py-6 pl-7 ${
                     errors.email && (touched.email || values.email)
                       ? "border-red-500"
                       : ""
@@ -116,7 +116,7 @@ const Login = () => {
                   onBlur={handleBlur}
                   value={values.password}
                   placeholder="Password"
-                  className={`py-6 pl-7 ${
+                  className={`lg:py-6 pl-7 ${
                     errors.password && (touched.password || values.password)
                       ? "border-red-500"
                       : ""

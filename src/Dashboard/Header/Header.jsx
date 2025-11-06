@@ -6,7 +6,7 @@ import { LiaUser } from "react-icons/lia";
 import { IoLogOutOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import ClientSelector from "../../component/ClientSelector/ClientSelector";
-import logoSml from "../../assets/imgi_1_logo_icon.png";
+import logoSml from "../../assets/dental-image-removebg-preview.png";
 import useAuth from "@/hooks/useAuth";
 
 const Header = ({ toggle, setToggle }) => {
@@ -49,9 +49,9 @@ const Header = ({ toggle, setToggle }) => {
       >
         {/* big logo */}
         <img
-          src={dashIcon}
+          src={logoSml}
           alt="Full Logo"
-          className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[70x] h-[40px] md:w-[130px] md:h-[50px] brightness-0 invert 
+          className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[70x] h-[40px]  brightness-0 invert 
       transition-all duration-300 ease-in-out 
       ${toggle ? "opacity-0 scale-0" : "opacity-100 scale-100"}`}
         />
