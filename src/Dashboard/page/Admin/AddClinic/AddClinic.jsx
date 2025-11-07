@@ -12,6 +12,8 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { AiOutlineDelete } from "react-icons/ai";
+import { CiEdit } from "react-icons/ci";
 
 const AddClinic = () => {
   const [search, setSearch] = useState("");
@@ -19,14 +21,37 @@ const AddClinic = () => {
   const [initialSchema, setInitialSchema] = useState(clinicInitialValue);
   const axiosSecure = useAxiosSecure();
   const columnHelper = createColumnHelper();
-  const { data: clinic } = useGetSecureData("clinics", "/clinics");
+  const { data: clinic, refetch: refetch_clinic } = useGetSecureData(
+    "clinics",
+    "/clinics"
+  );
 
   const { mutateAsync: add_clinic } = useMutation({
     mutationFn: async (info) => {
-      const { data } = await axiosSecure.post("/add-clinic", info);
+      const { data } = await axiosSecure.patch(
+        `/add-clinic?id=${info?._id}`,
+        info
+      );
       return data;
     },
-    onSuccess: () => toast.success("Clinic added successfully"),
+    onSuccess: () => {
+      refetch_clinic();
+      toast.success("Clinic added successfully");
+    },
+  });
+
+  const { mutateAsync: delete_clinic } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosSecure.delete(`/delete-clinic/${id}`);
+      return data;
+    },
+    onSuccess: () => {
+      refetch_clinic();
+      toast.success("User deleted Successfully");
+    },
+    onError: () => {
+      toast.error("Try again");
+    },
   });
 
   const columns = [
@@ -38,6 +63,11 @@ const AddClinic = () => {
     columnHelper.accessor("owner", {
       cell: (info) => <span>{info.getValue()}</span>,
       header: "owner",
+    }),
+
+    columnHelper.accessor("email", {
+      cell: (info) => <span>{info.getValue()}</span>,
+      header: "email",
     }),
 
     columnHelper.accessor("Version", {
@@ -69,6 +99,34 @@ const AddClinic = () => {
       cell: (info) => <span>{info.getValue()}</span>,
       header: "avg Tx Value",
     }),
+
+    columnHelper.accessor("_id", {
+      cell: (info) => {
+        const { _id, ...data } = info.row.original;
+
+        return (
+          <div className="space-x-2.5">
+            <button
+              onClick={() => {
+                setOpen(true);
+                setInitialSchema(data);
+              }}
+              className="text-green-500 hover:bg-green-100 rounded-md p-1"
+            >
+              <CiEdit />
+            </button>
+            <button
+              onClick={() => delete_clinic(_id)}
+              className="text-red-500 hover:bg-red-100 rounded-md p-1"
+            >
+              <AiOutlineDelete />
+            </button>
+          </div>
+        );
+      },
+      header: "Actions",
+      id: "action",
+    }),
   ];
 
   return (
@@ -95,13 +153,14 @@ const AddClinic = () => {
             onSubmit={add_clinic}
           >
             {(form) => (
-              <Form className="m-6 grid md:grid-cols-3 gap-4">
+              <Form className="m-6 grid grid-cols-1 md:grid-cols-3 gap-4 max-h-[80vh] overflow-y-auto pb-8">
                 <Input
                   form={form}
                   label={"Name"}
                   name={"name"}
                   placeholder={"Enter clinic name"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -110,6 +169,16 @@ const AddClinic = () => {
                   name={"owner"}
                   placeholder={"Enter clinic owner name"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
+                ></Input>
+
+                <Input
+                  form={form}
+                  label={"Email"}
+                  name={"email"}
+                  placeholder={"Enter clinic email"}
+                  required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -118,6 +187,7 @@ const AddClinic = () => {
                   name={"timezone"}
                   placeholder={"Enter timezone"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -126,6 +196,7 @@ const AddClinic = () => {
                   name={"location_id"}
                   placeholder={"Enter location Id"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -134,6 +205,7 @@ const AddClinic = () => {
                   name={"Version"}
                   placeholder={"Enter Version date 2028-07-28"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -142,6 +214,7 @@ const AddClinic = () => {
                   name={"Authorization"}
                   placeholder={"Enter Authorization token"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -150,6 +223,7 @@ const AddClinic = () => {
                   name={"adSpend"}
                   placeholder={"Enter adSpend amount"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -158,6 +232,7 @@ const AddClinic = () => {
                   name={"mgmtFee"}
                   placeholder={"Enter mgmtFee amount"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
                 <Input
@@ -166,9 +241,10 @@ const AddClinic = () => {
                   name={"avgTxValue"}
                   placeholder={"Enter avgTxValue amount"}
                   required={true}
+                  className="col-span-3 md:col-span-1"
                 ></Input>
 
-                <Button className="w-fit bg-blue-500 hover:bg-blue-600">
+                <Button className="w-fit bg-blue-500 hover:bg-blue-600 col-span-3">
                   Submit
                 </Button>
               </Form>
