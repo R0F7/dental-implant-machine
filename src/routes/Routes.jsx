@@ -11,6 +11,8 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import Profile from "@/Dashboard/page/Profile/Profile";
 import AddClinic from "@/Dashboard/page/Admin/AddClinic/AddClinic";
+import AddUrl from "@/Dashboard/page/Admin/AddUrl/AddUrl";
+import MasterDashboard from "@/Dashboard/page/MasterDashboard/MasterDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "master-report",
         element: <MasterReport></MasterReport>,
+      },
+      {
+        path: "master-dashboard",
+        element: <MasterDashboard></MasterDashboard>,
       },
       {
         path: "amber-alerts",
@@ -54,16 +60,26 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-
+      {
+        path: "add-clinic",
+        element: (
+          <AdminRoute>
+            <AddClinic></AddClinic>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "add-url",
+        element: (
+          <AdminRoute>
+            <AddUrl></AddUrl>
+          </AdminRoute>
+        ),
+      },
       {
         path: "/profile",
         element: <Profile></Profile>,
       },
-
-      {
-        path:"add-clinic",
-        element:<AddClinic></AddClinic>
-      }
     ],
   },
   {

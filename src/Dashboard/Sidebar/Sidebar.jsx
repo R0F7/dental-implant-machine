@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import { IoIosArrowUp } from "react-icons/io";
 import { useEffect, useRef } from "react";
 
-const Sidebar = ({ toggle,setToggle }) => {
+const Sidebar = ({ toggle, setToggle }) => {
   const dropdownRef = useRef(null);
   const {
     open: { open, id },
@@ -14,23 +14,22 @@ const Sidebar = ({ toggle,setToggle }) => {
     isLoading,
   } = useAuth();
 
-useEffect(() => {
-  const handleClickOutside = (e) => {
-    const isSmallScreen = window.innerWidth < 1024;
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const isSmallScreen = window.innerWidth < 1024;
 
-    if (
-      isSmallScreen &&                     
-      dropdownRef.current && 
-      !dropdownRef.current.contains(e.target)
-    ) {
-      setToggle(true);                    
-    }
-  };
+      if (
+        isSmallScreen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setToggle(true);
+      }
+    };
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, [setToggle]);
-
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [setToggle]);
 
   if (loading || isLoading) return;
 
@@ -39,7 +38,7 @@ useEffect(() => {
   return (
     <div>
       <div
-      ref={dropdownRef}
+        ref={dropdownRef}
         className={`fixed ${
           toggle
             ? "w-0 md:w-20 overflow-hidden md:overflow-visible"
@@ -56,6 +55,7 @@ useEffect(() => {
                     perms.dashboardSubs?.leadsOverTime)) ||
                 (rout.label === "Master Report" && perms.masterReport) ||
                 (rout.label === "Amber Alerts" && perms.amberAlerts) ||
+                (rout.label === "Master Dashboard" && perms.masterDashboard) ||
                 (rout.label === "Admin" && perms.admin);
 
               if (!canRender) return null;
@@ -100,7 +100,6 @@ useEffect(() => {
                               (c.label === "Roles" && perms.adminSubs?.roles) ||
                               (c.label === "Row Level Settings" &&
                                 perms.adminSubs?.rowLevelSettings);
-
                             if (!canRenderChild) return null;
 
                             return (
@@ -129,6 +128,7 @@ useEffect(() => {
                             const canRenderChild =
                               (c.label === "Users" && perms.adminSubs?.users) ||
                               c.label === "Add clinic" ||
+                              c.label === "Add url" ||
                               (c.label === "Roles" && perms.adminSubs?.roles) ||
                               (c.label === "Row Level Settings" &&
                                 perms.adminSubs?.rowLevelSettings);

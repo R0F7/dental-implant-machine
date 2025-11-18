@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import Loading from "../Loading/Loading";
-import useGetSecureData from "@/hooks/useGetSecureData";
+import useGetSecureData from '@/hooks/useGetSecureData';
+import React, { useState } from 'react';
+import Loading from '../Loading/Loading';
 
-const MasterReport = () => {
+const MasterDashboard = () => {
   const [loading, setLoading] = useState(true);
   const { data, isLoading } = useGetSecureData("all-url", "all-url");
 
@@ -17,7 +17,7 @@ const MasterReport = () => {
       <iframe
         width="100%"
         height="100%"
-        src={data[0].url_1}
+        src={data[0].url_2}
         frameBorder="0"
         style={{ border: 0 }}
         allowFullScreen
@@ -28,4 +28,4 @@ const MasterReport = () => {
   );
 };
 
-export default MasterReport;
+export default MasterDashboard;

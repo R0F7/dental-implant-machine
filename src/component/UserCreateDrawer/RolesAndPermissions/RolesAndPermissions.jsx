@@ -534,6 +534,7 @@ const RolesAndPermissions = ({ form }) => {
         : { users: false, roles: false, rowLevelSettings: false },
       amberAlerts: checked,
       masterReport: checked,
+      masterDashboard: checked,
     };
     setFieldValue("permissions", basePermissions);
   };
@@ -557,6 +558,7 @@ const RolesAndPermissions = ({ form }) => {
       adminSubs: { users: false, roles: false, rowLevelSettings: false },
       amberAlerts: false,
       masterReport: false,
+      masterDashboard: false,
     };
 
     const updatedPermissions = {
@@ -660,6 +662,15 @@ const RolesAndPermissions = ({ form }) => {
               onCheckedChange={(val) => handlePermission("masterReport", val)}
             />
             Master Report
+          </label>
+
+          {/* Master Dashboard */}
+          <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
+            <Checkbox
+              checked={permissions.masterDashboard}
+              onCheckedChange={(val) => handlePermission("masterDashboard", val)}
+            />
+            Master Dashboard
           </label>
         </div>
       </div>
