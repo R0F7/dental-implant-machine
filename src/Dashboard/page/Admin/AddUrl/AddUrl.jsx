@@ -64,14 +64,24 @@ const AddUrl = () => {
       cell: (info) => <span>{info.getValue()}</span>,
       header: "email",
     }),
-    columnHelper.accessor("url_1", {
-      cell: (info) => <span>{info.getValue()}</span>,
-      header: "url_1",
-    }),
-    columnHelper.accessor("url_2", {
-      cell: (info) => <span>{info.getValue()}</span>,
-      header: "url_2",
-    }),
+columnHelper.accessor("url_1", {
+  cell: (info) => (
+    <p className="w-[350px] whitespace-normal break-words">
+      {info.getValue()}
+    </p>
+  ),
+  header: "url_1",
+}),
+
+columnHelper.accessor("url_2", {
+  cell: (info) => (
+    <p className="w-[350px] whitespace-normal break-words">
+      {info.getValue()}
+    </p>
+  ),
+  header: "url_2",
+}),
+
     columnHelper.accessor("_id", {
       cell: (info) => {
         const { _id, ...data } = info.row.original;
@@ -102,7 +112,7 @@ const AddUrl = () => {
   ];
 
   return (
-    <div>
+    <div className="w-[calc(100vw-48px)]  md:w-[calc(100vw-130px)] lg:w-full">
       <TableHeader
         label={"URL"}
         title={"Url"}

@@ -130,7 +130,7 @@ const AddClinic = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-md">
+    <div className="bg-white w-[calc(100vw-48px)]  md:w-[calc(100vw-130px)] lg:w-full p-6 rounded-md">
       <TableHeader
         label={"clinic"}
         title={"clinic"}

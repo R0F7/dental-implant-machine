@@ -131,7 +131,7 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
           }}
         >
           {(form) => (
-            <Form className="space-y-3 mt-6 in-h-[572px] flex flex-col justify-between">
+            <Form className="space-y-3 mt-6 h-[572px] overflow-y-auto border-red-500 flex flex-col justify-between">
               {step === 1 && <BasicInfo form={form} />}
               {step === 2 && <AddressInfo form={form} />}
               {step === 3 && <RolesAndPermissions form={form} />}

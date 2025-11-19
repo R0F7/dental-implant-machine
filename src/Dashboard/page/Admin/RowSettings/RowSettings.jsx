@@ -233,7 +233,7 @@ const RowSettings = () => {
     <div>
       <PageLocation addresses={["Admin", "Row Level Settings"]}></PageLocation>
 
-      <div className="p-6 w-full bg-white rounded-md">
+      <div className="p-6 w-[calc(100vw-48px)]  md:w-[calc(100vw-130px)] lg:w-full bg-white rounded-md">
         <TableHeader
           title={"ROW LEVEL SETTINGS"}
           label={"Setting"}

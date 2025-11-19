@@ -572,7 +572,7 @@ const RolesAndPermissions = ({ form }) => {
   return (
     <div>
       {/* Role Assign */}
-      <div className="bg-[#FAFAFA] p-4 border rounded-md">
+      <div className="bg-[#FAFAFA] p-4 border rounded-md h-fit">
         <label htmlFor="role" className="label-inline pb-1.5">
           <span className="text-red-500">
             <PiAsterisk size={10} />

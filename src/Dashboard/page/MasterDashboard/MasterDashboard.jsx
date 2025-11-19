@@ -1,6 +1,6 @@
-import useGetSecureData from '@/hooks/useGetSecureData';
-import React, { useState } from 'react';
-import Loading from '../Loading/Loading';
+import useGetSecureData from "@/hooks/useGetSecureData";
+import React, { useState } from "react";
+import Loading from "../Loading/Loading";
 
 const MasterDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -14,6 +14,7 @@ const MasterDashboard = () => {
     <div className="h-screen">
       {loading && <Loading />}
 
+      {/* url 2 */}
       <iframe
         width="100%"
         height="100%"

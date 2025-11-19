@@ -97,7 +97,10 @@ const Sidebar = ({ toggle, setToggle }) => {
                             const canRenderChild =
                               (c.label === "Users" && perms.adminSubs?.users) ||
                               c.label === "Add clinic" ||
+                              c.label === "Add url" ||
                               (c.label === "Roles" && perms.adminSubs?.roles) ||
+                              (rout.label === "Master Dashboard" &&
+                                perms.masterDashboard) ||
                               (c.label === "Row Level Settings" &&
                                 perms.adminSubs?.rowLevelSettings);
                             if (!canRenderChild) return null;

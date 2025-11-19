@@ -144,7 +144,7 @@ const Users = () => {
     <div className="">
       <PageLocation addresses={["Admin", "Users"]}></PageLocation>
 
-      <div className="p-6 w-full bg-white rounded-md">
+      <div className="p-6 w-[calc(100vw-48px)]  md:w-[calc(100vw-130px)] lg:w-full bg-white rounded-md">
         <TableHeader
           title={"users"}
           label={"user"}
