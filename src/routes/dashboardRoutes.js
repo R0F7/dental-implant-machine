@@ -25,11 +25,11 @@ export const dashboardRoutes = [
     icon: LuLayoutDashboard,
     path: "master-dashboard",
   },
-  {
-    label: "Amber Alerts",
-    icon: GoBell,
-    path: "amber-alerts",
-  },
+  // {
+  //   label: "Amber Alerts",
+  //   icon: GoBell,
+  //   path: "amber-alerts",
+  // },
   {
     label: "Admin",
     icon: IoSettingsOutline,
