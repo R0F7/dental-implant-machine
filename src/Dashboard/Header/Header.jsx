@@ -40,7 +40,7 @@ const Header = ({ toggle, setToggle }) => {
   //   .join(" ");
   
   return (
-    <div className="bg-[#1A4BD2] py-2 mb-1 h-[64px] w-screen top-0 left-0 flex items-center fixed z-50">
+    <div className="bg-[#1A4BD2] py-2 mb-1 h-[64px] w-full top-0 left-0 flex items-center fixed z-50">
       <div
         className={`${
           toggle ? "w-0 md:w-20" : "w-64"

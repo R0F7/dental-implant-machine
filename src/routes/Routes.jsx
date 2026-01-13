@@ -14,6 +14,7 @@ import AddClinic from "@/Dashboard/page/Admin/AddClinic/AddClinic";
 import AddUrl from "@/Dashboard/page/Admin/AddUrl/AddUrl";
 import MasterDashboard from "@/Dashboard/page/MasterDashboard/MasterDashboard";
 import KPIsReport from "@/Dashboard/page/KPIsReport/KPIsReport";
+import KPIsReportTableFull from "@/Dashboard/page/KPIsReportTableFull/KPIsReportTableFull";
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
         path: "/profile",
         element: <Profile></Profile>,
       },
+      {
+        path:"KPIs-full-report",
+        element:<KPIsReportTableFull></KPIsReportTableFull>
+      }
     ],
   },
   {

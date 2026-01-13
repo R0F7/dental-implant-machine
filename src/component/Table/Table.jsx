@@ -29,7 +29,8 @@ const Table = ({ columns, data, pagination, nestedColumns, nestedData }) => {
   const end = Math.min((pageIndex + 1) * pageSize, totalRows);
 
   return (
-    <section className="w-full ma x-w-[310px] md:ma x-w-[730px] lg:ma x-w-none overflow-auto">
+    // <section className="w-full ma x-w-[310px] md:ma x-w-[730px] lg:ma x-w-none overflow-auto">
+     <section className="w-[88vw] lg:w-full sm:mx-auto md:mx-0 overflow-x-auto">
       <table className="w-full text-left text-sm border-collapse">
         <thead className="bg-[#5985FF] text-white">
           {table.getHeaderGroups().map((headerGroup) => (
