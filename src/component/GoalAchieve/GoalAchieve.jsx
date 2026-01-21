@@ -215,10 +215,12 @@ const GoalAchieve = ({
   showingLead = 0,
   closeLead = 0,
 }) => {
-  const conversationRate = percentage(conversionLead, totalLead);
-  const bookingRate = percentage(totalBooked, totalLead);
-  const showingRate = percentage(showingLead, totalLead);
-  const closeRate = percentage(closeLead, totalLead);
+  const conversationRate = percentage(conversionLead, totalLead * 0.6);
+  const bookingRate = percentage(totalBooked, totalLead * 0.25);
+
+  const showingRate = percentage(showingLead, totalLead * 0.25 * 0.5);
+  const closeRate = percentage(closeLead, totalLead * 0.25 * 0.5 * 0.25);
+  // const closeRate = percentage(closeLead, totalLead);
 
   const rows = [
     {
@@ -226,30 +228,32 @@ const GoalAchieve = ({
       value: inboundCallRate,
       fill: percentage(inboundCallRate, 80),
       target: 80,
+      rate: true,
     },
     {
       label: "Conversation Rate",
-      value: conversationRate,
-      fill: percentage(conversationRate, 60),
-      target: 60,
+      value: conversionLead,
+      fill: conversationRate,
+      target: Math.round(totalLead * 0.6),
     },
     {
       label: "Booking Rate",
-      value: bookingRate,
-      fill: percentage(bookingRate, 25),
-      target: 25,
+      value: totalBooked,
+      fill: bookingRate,
+      target: Math.round(totalLead * 0.25),
     },
     {
       label: "Showing Rate",
-      value: showingRate,
-      fill: percentage(showingRate, bookingRate * 0.5),
-      target: (bookingRate * 0.5).toFixed(2),
+      value: showingLead,
+      fill: showingRate,
+      // target: (bookingRate * 0.5).toFixed(2),
+      target: Math.round(totalLead * 0.25 * 0.5),
     },
     {
       label: "Close Rate",
-      value: closeRate,
-      fill: percentage(closeRate, showingRate * 0.25),
-      target: (showingRate * 0.25).toFixed(2),
+      value: closeLead,
+      fill: closeRate,
+      target: Math.round(totalLead * 0.25 * 0.5 * 0.25),
     },
   ];
 
@@ -263,7 +267,7 @@ const GoalAchieve = ({
         {/* Total Lead */}
         <div>
           <div className="flex items-center justify-between text-sm font-medium">
-            <p className="text-slate-500 text-base">Total Lead</p>
+            <p className="text-slate-500 text-base">New Leads</p>
             <span className="text-slate-500 font-normal">{totalLead}</span>
           </div>
           <div className="bg-gray-200 rounded-full w-full h-3 my-2.5">

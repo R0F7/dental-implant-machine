@@ -14,7 +14,7 @@ const Input = ({
   const { handleChange, handleBlur, values, errors, touched } = form;
 
   return (
-    <div className={cn("w-full space-y-1.5", className)}>
+    <div className={cn("w-full space-y-1", className)}>
       <label htmlFor={name} className="label-inline">
         {required && (
           <span className="text-red-500">

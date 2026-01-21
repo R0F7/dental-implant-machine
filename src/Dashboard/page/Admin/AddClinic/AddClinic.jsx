@@ -9,11 +9,14 @@ import { clinicInitialValue } from "@/schema/clinic/clinicInitialValues";
 import clinicValidationSchema from "@/schema/clinic/clinicValidationSchema";
 import { useMutation } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Form, Formik } from "formik";
+import { Field, FieldArray, Form, Formik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
+import { Input as Input2 } from "@/components/ui/input";
+import { PiAsterisk } from "react-icons/pi";
+import PipelineFieldArray from "@/components/ui/PipelineFieldArray";
 
 const AddClinic = () => {
   const [search, setSearch] = useState("");
@@ -75,7 +78,7 @@ const AddClinic = () => {
       header: "Version",
     }),
 
-    columnHelper.accessor("Authorization", {
+    columnHelper.accessor("authorization", {
       cell: (info) => <span>{info.getValue()}</span>,
       header: "Authorization",
     }),
@@ -85,20 +88,20 @@ const AddClinic = () => {
       header: "location_id",
     }),
 
-    columnHelper.accessor("adSpend", {
-      cell: (info) => <span>{info.getValue()}</span>,
-      header: "ad Spend",
-    }),
+    // columnHelper.accessor("adSpend", {
+    //   cell: (info) => <span>{info.getValue()}</span>,
+    //   header: "ad Spend",
+    // }),
 
-    columnHelper.accessor("mgmtFee", {
-      cell: (info) => <span>{info.getValue()}</span>,
-      header: "mgmt Fee",
-    }),
+    // columnHelper.accessor("mgmtFee", {
+    //   cell: (info) => <span>{info.getValue()}</span>,
+    //   header: "mgmt Fee",
+    // }),
 
-    columnHelper.accessor("avgTxValue", {
-      cell: (info) => <span>{info.getValue()}</span>,
-      header: "avg Tx Value",
-    }),
+    // columnHelper.accessor("avgTxValue", {
+    //   cell: (info) => <span>{info.getValue()}</span>,
+    //   header: "avg Tx Value",
+    // }),
 
     columnHelper.accessor("_id", {
       cell: (info) => {
@@ -153,7 +156,7 @@ const AddClinic = () => {
             onSubmit={add_clinic}
           >
             {(form) => (
-              <Form className="m-6 grid grid-cols-1 md:grid-cols-3 gap-4 max-h-[80vh] overflow-y-auto pb-8">
+              <Form className="m-6 grid grid-cols-1 md:grid-cols-4 gap-4 max-h-[80vh] overflow-y-auto pb-8">
                 <Input
                   form={form}
                   label={"Name"}
@@ -211,7 +214,7 @@ const AddClinic = () => {
                 <Input
                   form={form}
                   label={"Authorization"}
-                  name={"Authorization"}
+                  name={"authorization"}
                   placeholder={"Enter Authorization token"}
                   required={true}
                   className="col-span-3 md:col-span-1"
@@ -219,32 +222,49 @@ const AddClinic = () => {
 
                 <Input
                   form={form}
-                  label={"Ad Spend"}
-                  name={"adSpend"}
-                  placeholder={"Enter adSpend amount"}
+                  label={"Pipeline ID"}
+                  name={"pipeline_id"}
+                  placeholder={"Enter pipeline Id"}
                   required={true}
                   className="col-span-3 md:col-span-1"
                 ></Input>
 
-                <Input
-                  form={form}
-                  label={"MGMT Fee"}
-                  name={"mgmtFee"}
-                  placeholder={"Enter mgmtFee amount"}
-                  required={true}
-                  className="col-span-3 md:col-span-1"
-                ></Input>
+                <div className="col-span-4">
+                  <PipelineFieldArray
+                    name="conversion_pipelines"
+                    label="Conversion Rate Pipelines Stage ID"
+                    required
+                  />
+                </div>
 
-                <Input
-                  form={form}
-                  label={"Avg Tx Value"}
-                  name={"avgTxValue"}
-                  placeholder={"Enter avgTxValue amount"}
-                  required={true}
-                  className="col-span-3 md:col-span-1"
-                ></Input>
+                <div className="col-span-4">
+                  <PipelineFieldArray
+                    name="booking_pipelines"
+                    label="Booking Rate Pipelines Stage ID"
+                    required
+                  />
+                </div>
 
-                <Button className="w-fit bg-blue-500 hover:bg-blue-600 col-span-3">
+                <div className="col-span-4">
+                  <PipelineFieldArray
+                    name="showing_pipelines"
+                    label="Showing Rate Pipelines Stage ID"
+                    required
+                  />
+                </div>
+
+                <div className="col-span-4">
+                  <PipelineFieldArray
+                    name="close_pipelines"
+                    label="Close Rate Pipelines Stage ID"
+                    required
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-fit bg-blue-500 hover:bg-blue-600 col-span-3"
+                >
                   Submit
                 </Button>
               </Form>
