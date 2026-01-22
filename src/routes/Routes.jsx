@@ -25,23 +25,23 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { index: true, element: <Home></Home> },
-      {
-        path: "master-report",
-        element: <MasterReport></MasterReport>,
-      },
-      {
-        path: "master-dashboard",
-        element: <MasterDashboard></MasterDashboard>,
-      },
-      {
-        path: "amber-alerts",
-        element: <AmberAlerts></AmberAlerts>,
-      },
-      {
-        path: "kpis-report",
-        element: <KPIsReport></KPIsReport>,
-      },
+      { index: true, element: <KPIsReport></KPIsReport> },
+      // {
+      //   path: "master-report",
+      //   element: <MasterReport></MasterReport>,
+      // },
+      // {
+      //   path: "master-dashboard",
+      //   element: <MasterDashboard></MasterDashboard>,
+      // },
+      // {
+      //   path: "amber-alerts",
+      //   element: <AmberAlerts></AmberAlerts>,
+      // },
+      // {
+      //   path: "kpis-report",
+      //   element: <KPIsReport></KPIsReport>,
+      // },
       {
         path: "users",
         element: (
