@@ -9,7 +9,7 @@ export const axiosSecure = axios.create({
 });
 
 const useAxiosSecure = () => {
-  const { logOut } = useAuth();
+  const { logOut, authReady } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,17 +20,19 @@ const useAxiosSecure = () => {
       async (err) => {
         console.log("error tracked in the interceptor", err.response);
         if (
-          err.response.status === 401 ||
-          err.response.status === 403 
+          // (err.response.status === 401 || err.response.status === 403) &&
+          err.response.status === 401 &&
+          authReady
           // err.response.status === 404
+          // err.response.status === 403
         ) {
           await logOut();
           navigate("/login");
         }
         return Promise.reject(err);
-      }
+      },
     );
-  }, [logOut, navigate]);
+  }, [authReady, logOut, navigate]);
 
   return axiosSecure;
 };

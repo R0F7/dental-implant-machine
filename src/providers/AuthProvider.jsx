@@ -17,6 +17,7 @@ import useAxiosCommon from "@/hooks/useAxiosCommon";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const [authReady, setAuthReady] = useState(false);
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState({ open: false, id: null });
   const axiosCommon = useAxiosCommon();
@@ -53,7 +54,7 @@ const AuthProvider = ({ children }) => {
     try {
       const credential = EmailAuthProvider.credential(
         user.email,
-        currentPassword
+        currentPassword,
       );
       await reauthenticateWithCredential(user, credential);
 
@@ -93,35 +94,57 @@ const AuthProvider = ({ children }) => {
       const { data } = await axiosCommon.get(`/user/${user?.email}`);
       return data;
     },
-    enabled: !!user?.email,
+    enabled: authReady && !!user?.email,
   });
 
+  // useEffect(() => {
+  //   const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+  //     setUser(currentUser);
+
+  //     // localStorage
+  //     // if (currentUser) {
+  //     //   const userInfo = { email: currentUser.email };
+  //     //   axiosCommon.post("/jwt", userInfo).then((res) => {
+  //     //     if (res.data.token) {
+  //     //       localStorage.setItem("access-token", res.data.token);
+  //     //       setLoading(false);
+  //     //     }
+  //     //   });
+  //     // } else {
+  //     //   localStorage.removeItem("access-token");
+  //     //   setLoading(false);
+  //     // }
+
+  //     //cookies
+  //     if (currentUser) {
+  //       const userInfo = { email: currentUser.email };
+  //       await axiosCommon.post("/jwt", userInfo);
+  //     } else {
+  //       await axiosCommon.post("/logout");
+  //     }
+
+  //     setLoading(false);
+  //   });
+
+  //   return () => unSubscribe();
+  // }, [axiosCommon]);
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
+      setLoading(true);
+      setAuthReady(false);
 
-      // localStorage
-      // if (currentUser) {
-      //   const userInfo = { email: currentUser.email };
-      //   axiosCommon.post("/jwt", userInfo).then((res) => {
-      //     if (res.data.token) {
-      //       localStorage.setItem("access-token", res.data.token);
-      //       setLoading(false);
-      //     }
-      //   });
-      // } else {
-      //   localStorage.removeItem("access-token");
-      //   setLoading(false);
-      // }
-
-      //cookies
       if (currentUser) {
         const userInfo = { email: currentUser.email };
+
         await axiosCommon.post("/jwt", userInfo);
+
+        setUser(currentUser);
       } else {
         await axiosCommon.post("/logout");
+        setUser(null);
       }
 
+      setAuthReady(true);
       setLoading(false);
     });
 
@@ -130,6 +153,7 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     loading,
+    authReady,
     isLoading,
     isFetched,
     setLoading,
