@@ -166,14 +166,13 @@ const Header = ({ toggle, setToggle }) => {
   const dropdownRef = useRef(null);
   const { user, authReady, logOut, db_user } = useAuth();
 
-const { data: clinics = [] } = useGetSecureData(
-  "clinics",
-  "/clinics",
-  {
-    enabled: authReady && !!user,
-  }
-);
-
+  const { data: clinics = [], refetch } = useGetSecureData(
+    "clinics",
+    "/clinics",
+    {
+      enabled: authReady && !!user,
+    },
+  );
 
   // close dropdown on outside click
   useEffect(() => {
