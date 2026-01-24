@@ -170,7 +170,7 @@ const Header = ({ toggle, setToggle }) => {
     "clinics",
     "/clinics",
     {
-      enabled: loading && !!user,
+      enabled: !loading && !!user,
     },
   );
 
