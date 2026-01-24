@@ -678,7 +678,7 @@ import "react-date-range/dist/theme/default.css";
 import CalendarRange from "@/component/CalendarRange/CalendarRange";
 
 const KPIsReport = () => {
-  const { db_user: { permissions } = {} } = useAuth();
+  const { db_user: { permissions } = {}, user, loading } = useAuth();
   // const [showCalendar, setShowCalendar] = useState(false);
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -749,6 +749,7 @@ const KPIsReport = () => {
       );
       return data;
     },
+    enabled: !loading && !!user,
   });
 
   const { data: messages = [], isLoading: convLoading } = useQuery({
@@ -759,6 +760,7 @@ const KPIsReport = () => {
       );
       return data;
     },
+    enabled: !loading && !!user,
   });
 
   /* ---------------- filtered leads (multi clinic) ---------------- */
@@ -1053,7 +1055,7 @@ const KPIsReport = () => {
   }, [range]);
 
   const daysToShow = rangeDays > 30 ? 30 : rangeDays;
-  
+
   const last30DaysKpiRows = useMemo(() => {
     const rows = [];
 

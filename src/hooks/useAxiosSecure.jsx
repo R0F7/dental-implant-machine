@@ -22,7 +22,7 @@ const useAxiosSecure = () => {
         if (
           // (err.response.status === 401 || err.response.status === 403) &&
           err.response.status === 401 &&
-          loading
+          !loading
           // err.response.status === 404
           // err.response.status === 403
         ) {
