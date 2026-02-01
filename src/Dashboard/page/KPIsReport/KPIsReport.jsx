@@ -707,26 +707,9 @@ const KPIsReport = () => {
   //   .toISOString();
   // console.log(startDate, endDate);
 
-  // const startDate = range[0].startDate.toISOString();
-  // const endDate = range[0].endDate.toISOString();
-  // console.log(new Date(startDate),new Date(endDate));
-
   // *****
   const startDate = dayjs(range[0].startDate).format("YYYY-MM-DD");
   const endDate = dayjs(range[0].endDate).format("YYYY-MM-DD");
-
-  // const startDate = dayjs(range[0].startDate).tz("America/New_York").toISOString();
-  // const endDate = dayjs(range[0].endDate).tz("America/New_York").toISOString();
-
-  // const startDate = dayjs(range[0].startDate)
-  //   .tz("America/New_York")
-  //   .utc()
-  //   .format("YYYY-MM-DDTHH:mm:ss.SSS[+00:00]");
-
-  // const endDate = dayjs(range[0].endDate)
-  //   .tz("America/New_York")
-  //   .utc()
-  //   .format("YYYY-MM-DDTHH:mm:ss.SSS[+00:00]");
 
   const axiosSecure = useAxiosSecure();
 
@@ -797,7 +780,7 @@ const KPIsReport = () => {
       });
       return data;
     },
-    enabled: !loading && !!user,
+    enabled: !loading && !!user && !!clinics,
   });
   // console.log(leads);
 
@@ -811,6 +794,24 @@ const KPIsReport = () => {
   //   },
   //   enabled: !loading && !!user,
   // });
+
+  // 81.82% 1-10 dec
+  // const { data: messages = [], isLoading: convLoading } = useQuery({
+  //   // queryKey: ["messages", startDate, endDate, selectedClinicIds],
+  //   queryKey: ["messages", startDateForMsg, endDateForMsg, selectedClinicIds],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get("/messages", {
+  //       params: {
+  //         from: startDateForMsg,
+  //         to: endDateForMsg,
+  //         clinicIds: JSON.stringify(selectedClinicIds),
+  //       },
+  //     });
+  //     return data;
+  //   },
+  //   enabled: !loading && !!user && !!clinics,
+  // });
+
   const { data: messages = [], isLoading: convLoading } = useQuery({
     queryKey: ["messages", startDate, endDate, selectedClinicIds],
     queryFn: async () => {
@@ -823,7 +824,7 @@ const KPIsReport = () => {
       });
       return data;
     },
-    enabled: !loading && !!user,
+    enabled: !loading && !!user && !!clinics,
   });
 
   /* ---------------- filtered leads (multi clinic) ---------------- */
@@ -842,9 +843,9 @@ const KPIsReport = () => {
   // const check = axiosSecure.post("/kpi-report", {
   //   from: startDate,
   //   to: endDate,
-  //   clinicIds: selectedClinicIdsArray,
+  //   clinicIds: selectedClinicIds,
   // });
-  // // console.log(check);
+  // console.log(check);
 
   // const filteredLeads = useMemo(() => {
   //   return leads.filter((lead) => selectedClinicIds.has(String(lead.clinicId)));
@@ -910,20 +911,62 @@ const KPIsReport = () => {
       )
     : "0.00";
 
+  // const conversionLead = filteredLeads.filter((lead) => {
+  //   const isInConversationStage = conversationPipelineStageIdSet.has(
+  //     lead.pipelineStageId,
+  //   );
+
+  //   if (!isInConversationStage || !lead.lastStageChangeAt) return false;
+
+  //   const leadStageChangeDate = dayjs(lead.lastStageChangeAt)
+  //     .tz(lead.clinicTimezone)
+  //     .format("YYYY-MM-DD");
+
+  //   return leadStageChangeDate >= startDate && leadStageChangeDate <= endDate;
+  // });
+
+  // const conversionLead = filteredLeads.filter((lead) =>
+  //   conversationPipelineStageIdSet.has(lead.pipelineStageId),
+  // );
+
+  // const totalBooked = filteredLeads.filter((lead) =>
+  //   bookingPipelineStageIdSet.has(lead.pipelineStageId),
+  // );
+
+  // const showingLead = filteredLeads.filter((lead) =>
+  //   showingPipelineStageIdSet.has(lead.pipelineStageId),
+  // );
+
+  // const closeLead = filteredLeads.filter((lead) =>
+  //   closePipelineStageIdSet.has(lead.pipelineStageId),
+  // );
+
+  const isLeadInRangeAndStage = (lead, stageSet) => {
+    if (!stageSet.has(lead.pipelineStageId) || !lead.lastStageChangeAt)
+      return false;
+
+    const stageChangeDate = dayjs(lead.lastStageChangeAt)
+      .tz(lead.clinicTimezone)
+      .format("YYYY-MM-DD");
+    // console.log(stageChangeDate);
+
+    return stageChangeDate >= startDate && stageChangeDate <= endDate;
+  };
+
   const conversionLead = filteredLeads.filter((lead) =>
-    conversationPipelineStageIdSet.has(lead.pipelineStageId),
+    isLeadInRangeAndStage(lead, conversationPipelineStageIdSet),
   );
 
   const totalBooked = filteredLeads.filter((lead) =>
-    bookingPipelineStageIdSet.has(lead.pipelineStageId),
+    isLeadInRangeAndStage(lead, bookingPipelineStageIdSet),
   );
 
   const showingLead = filteredLeads.filter((lead) =>
-    showingPipelineStageIdSet.has(lead.pipelineStageId),
+    isLeadInRangeAndStage(lead, showingPipelineStageIdSet),
   );
 
   const closeLead = filteredLeads.filter((lead) =>
-    closePipelineStageIdSet.has(lead.pipelineStageId),
+    isLeadInRangeAndStage(lead, closePipelineStageIdSet),
   );
 
   const avgCall = useMemo(() => {
@@ -949,72 +992,27 @@ const KPIsReport = () => {
   const baseDate = useMemo(() => new Date(range[0].endDate), [range]);
 
   /* ---------------- chart ---------------- */
-  // const getLast12Months = () => {
-  //   const months = [];
-  //   for (let i = 11; i >= 0; i--) {
-  //     const d = new Date();
-  //     d.setMonth(d.getMonth() - i);
-  //     months.push({
-  //       key: `${d.getFullYear()}-${d.getMonth()}`,
-  //       month: `${d.toLocaleString("en-US", { month: "short" })} ${d.getFullYear()}`,
-  //     });
-  //   }
-  //   return months;
-  // };
   const getLast12Months = (baseDate) => {
     const months = [];
 
     for (let i = 11; i >= 0; i--) {
-      const d = new Date(baseDate);
-      d.setMonth(d.getMonth() - i);
+      const d = dayjs(baseDate).subtract(i, "month");
 
       months.push({
-        key: `${d.getFullYear()}-${d.getMonth()}`,
-        month: `${d.toLocaleString("en-US", {
-          month: "short",
-        })} ${d.getFullYear()}`,
+        key: d.format("YYYY-M"),
+        month: d.format("MMM YYYY"),
       });
     }
 
     return months;
   };
 
-  // const calculateMonthlyData = (leads) => {
-  //   const monthlyMap = {};
-
-  //   getLast12Months().forEach(({ key, month }) => {
-  //     monthlyMap[key] = {
-  //       month,
-  //       totalLead: 0,
-  //       conversion: 0,
-  //       booking: 0,
-  //       showing: 0,
-  //       close: 0,
-  //     };
-  //   });
-
-  //   leads.forEach((lead) => {
-  //     const d = new Date(lead.createdAt);
-  //     const key = `${d.getFullYear()}-${d.getMonth()}`;
-  //     if (!monthlyMap[key]) return;
-
-  //     monthlyMap[key].totalLead += 1;
-  //     if (conversationPipelineStageIdSet.has(lead.pipelineStageId))
-  //       monthlyMap[key].conversion += 1;
-  //     if (bookingPipelineStageIdSet.has(lead.pipelineStageId))
-  //       monthlyMap[key].booking += 1;
-  //     if (showingPipelineStageIdSet.has(lead.pipelineStageId))
-  //       monthlyMap[key].showing += 1;
-  //     if (closePipelineStageIdSet.has(lead.pipelineStageId))
-  //       monthlyMap[key].close += 1;
-  //   });
-
-  //   return Object.values(monthlyMap);
-  // };
+  const getMonthKey = (date, tz = "UTC") => dayjs(date).tz(tz).format("YYYY-M");
 
   const calculateMonthlyData = (leads, baseDate) => {
     const monthlyMap = {};
 
+    // init last 12 months
     getLast12Months(baseDate).forEach(({ key, month }) => {
       monthlyMap[key] = {
         month,
@@ -1027,20 +1025,31 @@ const KPIsReport = () => {
     });
 
     leads.forEach((lead) => {
-      const d = new Date(lead.createdAt);
-      const key = `${d.getFullYear()}-${d.getMonth()}`;
+      const tz = lead.clinicTimezone || "UTC";
 
-      if (!monthlyMap[key]) return;
+      // total leads → createdAt month
+      const createdKey = getMonthKey(lead.createdAt, tz);
+      if (monthlyMap[createdKey]) {
+        monthlyMap[createdKey].totalLead++;
+      }
 
-      monthlyMap[key].totalLead++;
+      // stage metrics → lastStageChangeAt month
+      if (!lead.lastStageChangeAt) return;
+
+      const stageKey = getMonthKey(lead.lastStageChangeAt, tz);
+      if (!monthlyMap[stageKey]) return;
+
       if (conversationPipelineStageIdSet.has(lead.pipelineStageId))
-        monthlyMap[key].conversion++;
+        monthlyMap[stageKey].conversion++;
+
       if (bookingPipelineStageIdSet.has(lead.pipelineStageId))
-        monthlyMap[key].booking++;
+        monthlyMap[stageKey].booking++;
+
       if (showingPipelineStageIdSet.has(lead.pipelineStageId))
-        monthlyMap[key].showing++;
+        monthlyMap[stageKey].showing++;
+
       if (closePipelineStageIdSet.has(lead.pipelineStageId))
-        monthlyMap[key].close++;
+        monthlyMap[stageKey].close++;
     });
 
     return Object.values(monthlyMap);
@@ -1124,6 +1133,7 @@ const KPIsReport = () => {
 
     for (const item of items) {
       const tz = item.clinicTimezone || "UTC";
+      // const tz = "America/Denver";
 
       const key = dayjs(item[dateField]).tz(tz).format("YYYY-MM-DD");
 
@@ -1152,6 +1162,16 @@ const KPIsReport = () => {
 
       const dailyLeads = leadMap.get(dayKey) || [];
       const dailyMessages = messageMap.get(dayKey) || [];
+      const isLeadInStageOnDay = (lead, stageSet, dayKey) => {
+        if (!stageSet.has(lead.pipelineStageId) || !lead.lastStageChangeAt)
+          return false;
+
+        const stageChangeDay = dayjs(lead.lastStageChangeAt)
+          .tz(lead.clinicTimezone)
+          .format("YYYY-MM-DD");
+
+        return stageChangeDay === dayKey;
+      };
 
       const inboundCalls = dailyMessages.filter(
         (m) => m.direction === "inbound" && m.messageType === "TYPE_CALL",
@@ -1164,21 +1184,31 @@ const KPIsReport = () => {
       rows.push({
         date: dayKey,
         totalLead: dailyLeads.length,
+
         inboundCallRate: inboundCalls.length
           ? ((answeredCalls.length / inboundCalls.length) * 100).toFixed(2)
           : "0.00",
+
         conversion: dailyLeads.filter((l) =>
-          conversationPipelineStageIdSet.has(l.pipelineStageId),
+          // conversationPipelineStageIdSet.has(l.pipelineStageId),
+          isLeadInStageOnDay(l, conversationPipelineStageIdSet, dayKey),
         ).length,
+
         booking: dailyLeads.filter((l) =>
-          bookingPipelineStageIdSet.has(l.pipelineStageId),
+          // bookingPipelineStageIdSet.has(l.pipelineStageId),
+          isLeadInStageOnDay(l, bookingPipelineStageIdSet, dayKey),
         ).length,
+
         showing: dailyLeads.filter((l) =>
-          showingPipelineStageIdSet.has(l.pipelineStageId),
+          // showingPipelineStageIdSet.has(l.pipelineStageId),
+          isLeadInStageOnDay(l, showingPipelineStageIdSet, dayKey),
         ).length,
+
         close: dailyLeads.filter((l) =>
-          closePipelineStageIdSet.has(l.pipelineStageId),
+          // closePipelineStageIdSet.has(l.pipelineStageId),
+          isLeadInStageOnDay(l, closePipelineStageIdSet, dayKey),
         ).length,
+
         avgCall: hoursToDayTime(
           calculateAvgFirstResponseTime(dailyLeads, dailyMessages, "TYPE_CALL"),
         ),
@@ -1255,32 +1285,21 @@ const KPIsReport = () => {
   //   return <Loading />;
   // }
 
-  // let config = {
-  //   method: "get",
-  //   maxBodyLength: Infinity,
-  //   url: "https://services.leadconnectorhq.com/opportunities/search?location_id=HgiBOaKxNEO2RVYbuTf1&pipeline_id=nomfM2sEp0psPHRdrSRU&endDate=01-11-2026&date=01-11-2026&limit=100",
-  //   headers: {
-  //     Accept: "application/json",
-  //     Version: "2021-07-28",
-  //     Authorization: "Bearer pit-30babb36-fc7b-4715-8fe3-92f87956ee64",
-  //   },
-  // };
-
-  // axios
-  //   .request(config)
-  //   .then((response) => {
-  //     console.log(console.log(response.data));
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-
   /* ---------------- UI ---------------- */
   return (
     <div>
-      <div className="flex justify-end mb-4">
-        <div className="relative">
+      {/* <div className="flex justify-end mb-4 bg-black w-full py-10 fixed top-0 left-0 mt-20 mx-auto px-10">
+        <div className="relativ ">
           <CalendarRange range={range} setRange={setRange}></CalendarRange>
+        </div>
+      </div> */}
+
+      <div className="sticky top-[90px] z-20 bg-white py-6 mb-6 rounded-md shadow">
+        {/* <h1 className="text-xl font-semibold">
+          Total Selected Clinic: {selectedClinics?.length}
+        </h1> */}
+        <div className="mx-auto flex justify-end pr-3">
+          <CalendarRange range={range} setRange={setRange} />
         </div>
       </div>
 

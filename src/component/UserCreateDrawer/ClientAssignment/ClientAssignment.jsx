@@ -17,15 +17,14 @@ const ClientAssignment = ({
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const columnHelper = createColumnHelper();
-  const { data: clinicsData = [] } = useGetSecureData(
-    "clinics",
-    "/clinics",
-  );
+  const { data: clinicsData = [] } = useGetSecureData("clinics", "/clinics");
 
   const clinics = clinicsData.map((c) => ({
     id: c._id,
     name: c.name,
     email: c.email,
+    userID:c.userID,
+    booking_pipelines: c.booking_pipelines,
   }));
 
   // Outside click
@@ -149,6 +148,8 @@ const ClientAssignment = ({
                     id: c.id,
                     name: c.name,
                     email: c.email,
+                    userID:c.userID,
+                    booking_pipelines: c.booking_pipelines,
                     permission: {
                       read: false,
                       write: false,

@@ -27,6 +27,7 @@ export const userInitialValues = {
     // amberAlerts: false,
     // masterReport: false,
     KPIsReport:false,
+    QCReport:false,
   },
   selectedClients: [],
 };

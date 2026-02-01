@@ -47,6 +47,7 @@ const RolesAndPermissions = ({ form }) => {
       // masterReport: checked,
       // masterDashboard: checked,
       KPIsReport: checked,
+      QCReport: checked,
     };
     setFieldValue("permissions", basePermissions);
   };
@@ -72,6 +73,7 @@ const RolesAndPermissions = ({ form }) => {
       // masterReport: false,
       // masterDashboard: false,
       KPIsReport: false,
+      QCReport: false,
     };
 
     const updatedPermissions = {
@@ -192,11 +194,18 @@ const RolesAndPermissions = ({ form }) => {
           <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
             <Checkbox
               checked={permissions.KPIsReport}
-              onCheckedChange={(val) =>
-                handlePermission("KPIsReport", val)
-              }
+              onCheckedChange={(val) => handlePermission("KPIsReport", val)}
             />
             KPIs Report
+          </label>
+
+          {/* QCReport */}
+          <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
+            <Checkbox
+              checked={permissions.QCReport}
+              onCheckedChange={(val) => handlePermission("QCReport", val)}
+            />
+            QC Report
           </label>
         </div>
       </div>
@@ -205,8 +214,10 @@ const RolesAndPermissions = ({ form }) => {
         {!permissions.selectAll &&
           !permissions.dashboard &&
           !permissions.admin &&
-          !permissions.amberAlerts &&
-          !permissions.masterReport && (
+          // !permissions.amberAlerts &&
+          // !permissions.masterReport &&
+          !permissions.KPIsReport &&
+          !permissions.QCReport && (
             <Notice bg={"#FEFCE8"} type={"Warning"} color={"#854D0E"}>
               No permissions are currently selected. At least one permission
               must be assigned to create/update the user.

@@ -25,7 +25,7 @@ const ClientSelector = ({
       setSelectedClients([]);
     } else {
       setSelectedClients(
-        clients.map((c) => ({ id: c.id, name: c.name, email: c.email })),
+        clients.map((c) => ({ id: c.id, name: c.name, email: c.email,userID:c.userID ,booking_pipelines: c.booking_pipelines,})),
       );
     }
   };
@@ -39,7 +39,7 @@ const ClientSelector = ({
     } else {
       setSelectedClients([
         ...safeSelected,
-        { id: client.id, name: client.name,email: client.email, },
+        { id: client.id, name: client.name,email: client.email,userID:client.userID,booking_pipelines: client.booking_pipelines, },
       ]);
     }
   };

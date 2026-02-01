@@ -5,7 +5,7 @@ import { GoBell } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LiaUser } from "react-icons/lia";
 import { LuLayoutDashboard, LuShieldCheck } from "react-icons/lu";
-import { RiFileSettingsLine } from "react-icons/ri";
+import { RiFileSettingsLine, RiTableLine } from "react-icons/ri";
 import { BiClinic } from "react-icons/bi";
 import { MdOutlineAddLink } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
@@ -41,6 +41,11 @@ export const dashboardRoutes = [
   //   icon: TbReportAnalytics,
   //   path: "/KPIs-report",
   // },
+  {
+    label:"QC Report",
+    icon:RiTableLine,
+    path:"QC-report",
+  },
   {
     label: "Admin",
     icon: IoSettingsOutline,

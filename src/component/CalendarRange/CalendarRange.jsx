@@ -241,6 +241,7 @@ const CalendarRange = ({ range, setRange }) => {
 
   return (
     <RangePicker
+    getPopupContainer={(trigger) => trigger.parentElement}
       open={open}
       value={tempValue}
       format="DD-MM-YYYY"

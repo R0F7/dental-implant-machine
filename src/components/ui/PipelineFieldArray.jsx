@@ -47,7 +47,7 @@ const PipelineFieldArray = ({
                       as={Input}
                       name={`${name}.${i}.name`}
                       className="h-8 px-2 text-sm"
-                      placeholder={`Pipeline Name #${i + 1}`}
+                      placeholder={`Name #${i + 1}`}
                     />
                     {rowTouched?.name && rowError?.name && (
                       <p className="text-red-500 text-sm">
@@ -62,7 +62,7 @@ const PipelineFieldArray = ({
                       as={Input}
                       name={`${name}.${i}.id`}
                       className="h-8 px-2 text-sm "
-                      placeholder={`Pipeline ID #${i + 1}`}
+                      placeholder={`ID #${i + 1}`}
                     />
                     {rowTouched?.id && rowError?.id && (
                       <p className="text-red-500 text-sm">

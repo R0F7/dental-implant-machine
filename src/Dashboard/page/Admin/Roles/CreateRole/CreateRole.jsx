@@ -16,8 +16,10 @@ const CreateRoleDrawer = ({ form }) => {
         goalAchievement: checked,
         masterReportOverview: checked,
       },
-      amberAlerts: checked,
-      masterReport: checked,
+      // amberAlerts: checked,
+      // masterReport: checked,
+      KPIsReport: checked,
+      QCReport: checked,
     };
     setFieldValue("permissions", basePermissions);
   };
@@ -25,7 +27,7 @@ const CreateRoleDrawer = ({ form }) => {
   const handlePermission = (name, checked) => {
     setFieldValue(`permissions.${name}`, checked);
   };
-  
+
   return (
     <div className="mt-7">
       <div className="flex items-center justify-between mb-5">
@@ -65,21 +67,39 @@ const CreateRoleDrawer = ({ form }) => {
         />
 
         {/* Amber Alerts */}
-        <label className="h-[54px] text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
+        {/* <label className="h-[54px] text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
           <Checkbox
             checked={permissions.amberAlerts}
             onCheckedChange={(val) => handlePermission("amberAlerts", val)}
           />
           Amber Alerts
-        </label>
+        </label> */}
 
         {/* Master Report */}
-        <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
+        {/* <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
           <Checkbox
             checked={permissions.masterReport}
             onCheckedChange={(val) => handlePermission("masterReport", val)}
           />
           Master Report
+        </label> */}
+
+        {/* KPIs Report */}
+        <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
+          <Checkbox
+            checked={permissions.KPIsReport}
+            onCheckedChange={(val) => handlePermission("KPIsReport", val)}
+          />
+          KPIs Report
+        </label>
+
+        {/* QC Report */}
+        <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
+          <Checkbox
+            checked={permissions.QCReport}
+            onCheckedChange={(val) => handlePermission("QCReport", val)}
+          />
+          QC Report 
         </label>
       </div>
     </div>

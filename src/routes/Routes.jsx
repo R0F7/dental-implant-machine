@@ -15,6 +15,7 @@ import AddUrl from "@/Dashboard/page/Admin/AddUrl/AddUrl";
 import MasterDashboard from "@/Dashboard/page/MasterDashboard/MasterDashboard";
 import KPIsReport from "@/Dashboard/page/KPIsReport/KPIsReport";
 import KPIsReportTableFull from "@/Dashboard/page/KPIsReportTableFull/KPIsReportTableFull";
+import QCReport from "@/Dashboard/page/QCReport/QCReport";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
       //   path: "kpis-report",
       //   element: <KPIsReport></KPIsReport>,
       // },
+      {
+        path: "QC-report",
+        element: <QCReport></QCReport>,
+      },
       {
         path: "users",
         element: (

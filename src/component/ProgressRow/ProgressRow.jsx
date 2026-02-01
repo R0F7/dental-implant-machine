@@ -3,8 +3,8 @@ const ProgressRow = ({ label, value, fill, target, rate }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between text-sm font-medium">
-        <p className="text-slate-500 text-base">{label}</p>
+      <div className="flex justify-between text-sm font-medium">
+        <p className="text-slate-500 text-base m-0">{label}</p>
         <span className="text-slate-500 font-normal">
           {value}
           {rate && "%"}

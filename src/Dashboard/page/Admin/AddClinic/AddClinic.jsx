@@ -17,6 +17,7 @@ import { CiEdit } from "react-icons/ci";
 import { Input as Input2 } from "@/components/ui/input";
 import { PiAsterisk } from "react-icons/pi";
 import PipelineFieldArray from "@/components/ui/PipelineFieldArray";
+import CalendarID from "@/components/ui/CalendarID/CalendarID";
 
 const AddClinic = () => {
   const [search, setSearch] = useState("");
@@ -26,20 +27,21 @@ const AddClinic = () => {
   const columnHelper = createColumnHelper();
   const { data: clinic, refetch: refetch_clinic } = useGetSecureData(
     "clinics",
-    "/clinics"
+    "/clinics",
   );
 
   const { mutateAsync: add_clinic } = useMutation({
     mutationFn: async (info) => {
       const { data } = await axiosSecure.patch(
         `/add-clinic?id=${info?._id}`,
-        info
+        info,
       );
       return data;
     },
     onSuccess: () => {
       refetch_clinic();
       toast.success("Clinic added successfully");
+      setOpen(false);
     },
   });
 
@@ -222,12 +224,26 @@ const AddClinic = () => {
 
                 <Input
                   form={form}
+                  label={"User ID"}
+                  name={"userID"}
+                  placeholder={"Enter User ID"}
+                  required={true}
+                  className="col-span-3 md:col-span-1"
+                ></Input>
+
+                <Input
+                  form={form}
                   label={"Pipeline ID"}
                   name={"pipeline_id"}
                   placeholder={"Enter pipeline Id"}
                   required={true}
                   className="col-span-3 md:col-span-1"
                 ></Input>
+
+                {/* calendar ID */}
+                <div className="col-span-4">
+                  <CalendarID form={form}></CalendarID>
+                </div>
 
                 <div className="col-span-4">
                   <PipelineFieldArray
