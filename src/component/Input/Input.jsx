@@ -10,6 +10,7 @@ const Input = ({
   form,
   required,
   className,
+  readOnly
 }) => {
   const { handleChange, handleBlur, values, errors, touched } = form;
 
@@ -32,6 +33,7 @@ const Input = ({
         onChange={handleChange}
         onBlur={handleBlur}
         value={values[name] || ""}
+        readOnly={readOnly}
         className={`input ${
           errors[name] && (touched[name] || values[name])
             ? "border-red-500"

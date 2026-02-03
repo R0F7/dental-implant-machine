@@ -4,7 +4,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
-const BasicInfo = ({ form }) => {
+const BasicInfo = ({ form,initialValues }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
 
@@ -44,6 +44,7 @@ const BasicInfo = ({ form }) => {
         name={"email"}
         label={"Email"}
         form={form}
+        readOnly={!!initialValues?.email}
         placeholder={"Enter email address"}
         required={true}
       ></Input>

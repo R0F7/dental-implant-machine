@@ -12,6 +12,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import Drawer from "../Drawer/Drawer";
 import Loading from "@/Dashboard/page/Loading/Loading";
+import { CgSpinnerTwo } from "react-icons/cg";
 
 const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
   const [step, setStep] = useState(1);
@@ -27,6 +28,7 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
     onSuccess: () => {
       refetch_users();
       onClose();
+      setStep(1);
       toast.success("user created successfully");
     },
   });
@@ -54,7 +56,7 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
         Object.keys(valid).reduce((acc, key) => {
           acc[key] = true;
           return acc;
-        }, {})
+        }, {}),
       );
     }
   };
@@ -76,6 +78,7 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
     } catch (error) {
       toast.error(error.response.data.error);
       setLoading(false);
+      onClose();
     }
   };
 
@@ -100,8 +103,8 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
                     idx + 1 < step
                       ? "bg-[#E6F4FF] text-[rgb(38,102,192)]"
                       : idx + 1 === step
-                      ? "bg-blue-500 text-white"
-                      : "bg-[#F0F0F0]"
+                        ? "bg-blue-500 text-white"
+                        : "bg-[#F0F0F0]"
                   } rounded-full text-primary`}
                 >
                   {idx + 1 < step ? <GiCheckMark /> : idx + 1}
@@ -121,18 +124,20 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
           validationSchema={userValidationSchema[step] || null}
           validateOnChange={true}
           enableReinitialize={true}
-          onSubmit={(values, formikHelpers) => {
+          onSubmit={async (values, formikHelpers) => {
             if (step < 4) {
               handleNext(formikHelpers);
+              formikHelpers.setSubmitting(false);
             } else {
-              handleSubmit(values);
+              await handleSubmit(values);
               formikHelpers.resetForm();
+              formikHelpers.setSubmitting(false);
             }
           }}
         >
           {(form) => (
             <Form className="space-y-3 mt-6 h-[572px] overflow-y-auto border-red-500 flex flex-col justify-between">
-              {step === 1 && <BasicInfo form={form} />}
+              {step === 1 && <BasicInfo form={form} initialValues={initialValues}/>}
               {step === 2 && <AddressInfo form={form} />}
               {step === 3 && <RolesAndPermissions form={form} />}
               {step === 4 && (
@@ -173,9 +178,15 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
                 ) : (
                   <button
                     type="submit"
-                    className="h-9 px-4 border rounded-md bg-[#52C31A] text-sm text-white font-medium hover:bg-[#1677ff] hover:border-[#1677ff] transition-all duration-200 shadow-sm"
+                    disabled={form.isSubmitting}
+                    onClick={() => console.log(form.isSubmitting)}
+                    className="h-9 px-4 border rounded-md bg-[#52C31A] text-sm text-white font-medium hover:bg-[#1677ff] hover:border-[#1677ff] transition-all duration-200 shadow-sm disabled:cursor-not-allowed"
                   >
-                    Submit
+                    {form.isSubmitting ? (
+                      <CgSpinnerTwo className="animate-spin" />
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                 )}
               </div>

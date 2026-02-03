@@ -11,11 +11,6 @@ const clinicValidationSchema = Yup.object({
   userID: Yup.string().required("User ID required"),
   Version: Yup.string().required("Version date required"),
 
-  // calendarID: Yup.array()
-  //   .of(Yup.string().required("Calendar ID is required"))
-  //   .min(1, "At least one ID is required")
-  //   .required("Calendar ID are required"),
-
   conversion_pipelines: Yup.array()
     .of(
       Yup.object({

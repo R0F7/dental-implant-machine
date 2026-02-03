@@ -240,11 +240,6 @@ const AddClinic = () => {
                   className="col-span-3 md:col-span-1"
                 ></Input>
 
-                {/* calendar ID */}
-                <div className="col-span-4">
-                  <CalendarID form={form}></CalendarID>
-                </div>
-
                 <div className="col-span-4">
                   <PipelineFieldArray
                     name="conversion_pipelines"

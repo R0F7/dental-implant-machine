@@ -8,7 +8,6 @@ export const clinicInitialValue = {
   Version: null,
   authorization: "",
   userID: "",
-  calendarID: [""],
 
   conversion_pipelines: [{ name: "", id: "" }],
   booking_pipelines: [{ name: "", id: "" }],
