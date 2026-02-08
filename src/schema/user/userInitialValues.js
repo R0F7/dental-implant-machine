@@ -24,8 +24,6 @@ export const userInitialValues = {
     },
     admin: false,
     adminSubs: { users: false, roles: false, rowLevelSettings: false },
-    // amberAlerts: false,
-    // masterReport: false,
     KPIsReport:false,
     QCReport:false,
   },

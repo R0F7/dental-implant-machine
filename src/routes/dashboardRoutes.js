@@ -1,50 +1,26 @@
-import { AiOutlineDashboard } from "react-icons/ai";
-import { CiBellOn, CiSettings } from "react-icons/ci";
-import { FaRegFileAlt } from "react-icons/fa";
-import { GoBell } from "react-icons/go";
+import { GoTable } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { LiaUser } from "react-icons/lia";
-import { LuLayoutDashboard, LuShieldCheck } from "react-icons/lu";
+import { LuShieldCheck } from "react-icons/lu";
 import { RiFileSettingsLine, RiTableLine } from "react-icons/ri";
 import { BiClinic } from "react-icons/bi";
-import { MdOutlineAddLink } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
 
 export const dashboardRoutes = [
-  // {
-  //   label: "Dashboard",
-  //   icon: AiOutlineDashboard,
-  //   path: "/",
-  // },
-  // {
-  //   label: "Master Report",
-  //   icon: FaRegFileAlt,
-  //   path: "master-report",
-  // },
-  // {
-  //   label: "Master Dashboard",
-  //   icon: LuLayoutDashboard,
-  //   path: "master-dashboard",
-  // },
-  // {
-  //   label: "Amber Alerts",
-  //   icon: GoBell,
-  //   path: "amber-alerts",
-  // },
   {
     label: "KPIs Report",
     icon: TbReportAnalytics,
     path: "/",
   },
-  // {
-  //   label: "KPIs Report",
-  //   icon: TbReportAnalytics,
-  //   path: "/KPIs-report",
-  // },
   {
     label:"QC Report",
     icon:RiTableLine,
     path:"QC-report",
+  },
+  {
+    label:"CDR Report",
+    icon:GoTable,
+    path:"CDR-report",
   },
   {
     label: "Admin",
@@ -70,11 +46,6 @@ export const dashboardRoutes = [
         label: "Add clinic",
         icon: BiClinic,
         path: "add-clinic",
-      },
-      {
-        label: "Add url",
-        icon: MdOutlineAddLink,
-        path: "add-url",
       },
     ],
   },

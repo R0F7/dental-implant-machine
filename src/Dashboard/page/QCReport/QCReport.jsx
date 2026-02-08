@@ -27,8 +27,8 @@ const QCReport = () => {
 
   const [range, setRange] = useState([
     {
-        startDate: thirtyDaysAgo,
-        endDate: new Date(),
+      startDate: thirtyDaysAgo,
+      endDate: new Date(),
       // startDate: new Date("2025-12-21T18:00:00.000Z"),
       // endDate: new Date("2026-01-21T18:00:00.000Z"),
       key: "selection",
@@ -61,185 +61,198 @@ const QCReport = () => {
     setClinicIds(ids);
   }, [selected]);
 
-  const { data: leads = [], isLoading: opporLoading } = useQuery({
-    queryKey: ["opportunities", startDate, endDate, clinicIds],
-    queryFn: async () => {
-      const { data } = await axiosSecure.get("/opportunities", {
-        params: {
-          from: startDate,
-          to: endDate,
-          clinicIds: JSON.stringify(clinicIds),
-        },
-      });
-      return data;
-    },
-    //   enabled: !loading && !!user && !!clinics,
-  });
-
-  const { data: messages = [], isLoading: convLoading } = useQuery({
-    queryKey: ["messages", startDate, endDate, clinicIds],
-    queryFn: async () => {
-      const { data } = await axiosSecure.get("/messages", {
-        params: {
-          from: startDate,
-          to: endDate,
-          clinicIds: JSON.stringify(clinicIds),
-        },
-      });
-      return data;
-    },
-    //   enabled: !loading && !!user && !!clinics,
-  });
-  //   console.log(leads.length, messages.length);
-
-  // let config = {
-  //   method: "get",
-  //   maxBodyLength: Infinity,
-  //   url: "https://services.leadconnectorhq.com/calendars/events?locationId=HgiBOaKxNEO2RVYbuTf1&calendarId=S72YP1CH8mYdmuXYnTlW&startTime=1766361600000&endTime=1769126399000",
-  //   headers: {
-  //     Accept: "application/json",
-  //     Version: "2021-04-15",
-  //     Authorization: "Bearer pit-30babb36-fc7b-4715-8fe3-92f87956ee64",
+  // const { data: leads = [], isLoading: opporLoading } = useQuery({
+  //   queryKey: ["opportunities", startDate, endDate, clinicIds],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get("/opportunities", {
+  //       params: {
+  //         from: startDate,
+  //         to: endDate,
+  //         clinicIds: JSON.stringify(clinicIds),
+  //       },
+  //     });
+  //     return data;
   //   },
+  //   //   enabled: !loading && !!user && !!clinics,
+  // });
+
+  // const { data: messages = [], isLoading: convLoading } = useQuery({
+  //   queryKey: ["messages", startDate, endDate, clinicIds],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get("/messages", {
+  //       params: {
+  //         from: startDate,
+  //         to: endDate,
+  //         clinicIds: JSON.stringify(clinicIds),
+  //       },
+  //     });
+  //     return data;
+  //   },
+  //   //   enabled: !loading && !!user && !!clinics,
+  // });
+
+  // const { data: calendarEvents = [], isLoading: CELoading } = useQuery({
+  //   queryKey: ["calendarEvents", startDate, endDate, clinicIds],
+  //   queryFn: async () => {
+  //     const { data } = await axiosSecure.get("/calendarEvents", {
+  //       params: {
+  //         from: startDate,
+  //         to: endDate,
+  //         clinicIds: JSON.stringify(clinicIds),
+  //       },
+  //     });
+  //     return data;
+  //   },
+  //   //   enabled: !loading && !!user && !!clinics,
+  // });
+  // // console.log(leads.length, messages.length, calendarEvents.length);
+
+  // const isLeadInStageWithinRange = (lead, stageSet) => {
+  //   if (!stageSet.has(lead.pipelineStageId) || !lead.lastStageChangeAt)
+  //     return false;
+
+  //   const stageChangeDate = dayjs(lead.lastStageChangeAt)
+  //     .tz(lead.clinicTimezone)
+  //     .format("YYYY-MM-DD");
+
+  //   return stageChangeDate >= startDate && stageChangeDate <= endDate;
   // };
 
-  // axios
-  //   .request(config)
-  //   .then((response) => {
-  //     console.log((response.data));
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  // const reports = selected?.selectedClients?.map((clinic) => {
+  //   // const start = new Date(range[0].startDate);
+  //   // const end = new Date(range[0].endDate);
+  //   // const diff = Math.abs(end - start);
+  //   // const working_day =  Math.ceil(diff / (1000 * 60 * 60 * 24));
 
-  const isLeadInStageWithinRange = (lead, stageSet) => {
-    if (!stageSet.has(lead.pipelineStageId) || !lead.lastStageChangeAt)
-      return false;
+  //   const clinicLeads = leads.filter(
+  //     (lead) => String(lead.clinicId) === String(clinic.id),
+  //   );
 
-    const stageChangeDate = dayjs(lead.lastStageChangeAt)
-      .tz(lead.clinicTimezone)
-      .format("YYYY-MM-DD");
+  //   const clinicMessages = messages.filter(
+  //     (msg) => String(msg.clinicId) === String(clinic.id),
+  //   );
 
-    return stageChangeDate >= startDate && stageChangeDate <= endDate;
-  };
+  //   const clinicCalendarEvents = calendarEvents.filter(
+  //     (event) => String(event.clinicId) === String(clinic.id),
+  //   );
+  //   // console.log(clinicLeads.length,clinicMessages.length, clinicCalendarEvents.length);
 
-  const reports = selected?.selectedClients?.map((clinic) => {
-    // const start = new Date(range[0].startDate);
-    // const end = new Date(range[0].endDate);
-    // const diff = Math.abs(end - start);
-    // const working_day =  Math.ceil(diff / (1000 * 60 * 60 * 24));
+  //   const d1 = dayjs(startDate);
+  //   const d2 = dayjs(endDate);
+  //   const diff = d2.diff(d1, "day");
 
-    const clinicLeads = leads.filter(
-      (lead) => String(lead.clinicId) === String(clinic.id),
-    );
+  //   const working_day = diff;
 
-    const clinicMessages = messages.filter(
-      (msg) => String(msg.clinicId) === String(clinic.id),
-    );
-    // console.log(clinicLeads.length,clinicMessages.length);
+  //   const total_of_call = clinicMessages.filter(
+  //     (message) =>
+  //       message.direction === "outbound" &&
+  //       message.messageType === "TYPE_CALL" &&
+  //       message.userId === clinic.userID,
+  //   ).length;
 
-    const d1 = dayjs(startDate);
-    const d2 = dayjs(endDate);
-    const diff = d2.diff(d1, "day");
+  //   const OB_call_per_day = Math.round(total_of_call / working_day);
 
-    const working_day = diff;
+  //   const total_of_sets = clinicCalendarEvents.length;
 
-    const total_of_call = clinicMessages.filter(
-      (message) =>
-        message.direction === "outbound" &&
-        message.messageType === "TYPE_CALL" &&
-        message.userId === clinic.userID,
-    ).length;
+  //   const inbound_calls_total = clinicMessages.filter(
+  //     (message) =>
+  //       message.direction === "inbound" && message.messageType === "TYPE_CALL",
+  //   );
 
-    const OB_call_per_day = Math.round(total_of_call / working_day);
+  //   const inbound_calls_answer = inbound_calls_total.filter(
+  //     (call) => call.status === "completed",
+  //   );
 
-    const bookingStageIdSet = new Set(
-      clinic?.booking_pipelines?.map((p) => p.id),
-    );
+  //   const IBAR = (
+  //     (inbound_calls_answer.length / inbound_calls_total.length) *
+  //     100
+  //   ).toFixed(2);
 
-    const total_of_sets = clinicLeads.filter((lead) =>
-      isLeadInStageWithinRange(lead, bookingStageIdSet),
-    ).length;
+  //   const thirty_plus_minutes_to_respond = countLeadsByFirstResponseTimeRange(
+  //     clinicLeads,
+  //     clinicMessages,
+  //     30,
+  //     null,
+  //     "TYPE_CALL",
+  //   );
 
-    const inbound_calls_total = clinicMessages.filter(
-      (message) =>
-        message.direction === "inbound" && message.messageType === "TYPE_CALL",
-    );
+  //   const with_in_15_minutes = countLeadsByFirstResponseTimeRange(
+  //     clinicLeads,
+  //     clinicMessages,
+  //     0,
+  //     15,
+  //     "TYPE_CALL",
+  //   );
 
-    const inbound_calls_answer = inbound_calls_total.filter(
-      (call) => call.status === "completed",
-    );
+  //   const total_leads_reviewed =
+  //     thirty_plus_minutes_to_respond + with_in_15_minutes;
 
-    const IBAR = (
-      (inbound_calls_answer.length / inbound_calls_total.length) *
-      100
-    ).toFixed(2);
+  //   const percentage_of_leads_w_thirty_plus_mins = (
+  //     (thirty_plus_minutes_to_respond / total_leads_reviewed) *
+  //     100
+  //   ).toFixed(2);
 
-    const thirty_plus_minutes_to_respond = countLeadsByFirstResponseTimeRange(
-      clinicLeads,
-      clinicMessages,
-      30,
-      null,
-      "TYPE_CALL",
-    );
+  //   const percentage_of_leads_with_in_fifteen_mins = (
+  //     (with_in_15_minutes / total_leads_reviewed) *
+  //     100
+  //   ).toFixed(2);
 
-    const with_in_15_minutes = countLeadsByFirstResponseTimeRange(
-      clinicLeads,
-      clinicMessages,
-      0,
-      15,
-      "TYPE_CALL",
-    );
+  //   return {
+  //     office: clinic.name,
+  //     setter: selected?.name,
+  //     date_range: `${startDate + " - " + endDate}`,
+  //     working_day: working_day,
+  //     total_of_call,
+  //     OB_call_per_day,
+  //     total_of_opportunities: clinicLeads.length,
 
-    const total_leads_reviewed =
-      thirty_plus_minutes_to_respond + with_in_15_minutes;
+  //     total_of_sets,
+  //     set_day: working_day ? (total_of_sets / working_day).toFixed(2) : 0,
+  //     lead_to_schedule_ratio:
+  //       total_of_sets > 0
+  //         ? ((total_of_sets / clinicLeads.length) * 100).toFixed(2)
+  //         : 0,
 
-    const percentage_of_leads_w_thirty_plus_mins = (
-      (thirty_plus_minutes_to_respond / total_leads_reviewed) *
-      100
-    ).toFixed(2);
+  //     inbound_calls_total: inbound_calls_total.length,
+  //     inbound_calls_answer: inbound_calls_answer.length,
+  //     IBAR,
+  //     thirty_plus_minutes_to_respond,
+  //     with_in_15_minutes,
+  //     total_leads_reviewed,
+  //     percentage_of_leads_w_thirty_plus_mins,
+  //     percentage_of_leads_with_in_fifteen_mins,
+  //   };
+  // });
 
-    const percentage_of_leads_with_in_fifteen_mins = (
-      (with_in_15_minutes / total_leads_reviewed) *
-      100
-    ).toFixed(2);
+  // if (opporLoading || convLoading || CELoading) return <Loading />;
 
-    return {
-      office: clinic.name,
-      setter: selected?.name,
-      date_range: `${startDate + " - " + endDate}`,
-      working_day: working_day,
-      total_of_call,
-      OB_call_per_day,
-      total_of_opportunities: clinicLeads.length,
-
-      total_of_sets,
-      set_day: working_day ? (total_of_sets / working_day).toFixed(2) : 0,
-      lead_to_schedule_ratio: clinicLeads.length
-        ? ((total_of_sets / clinicLeads.length) * 100).toFixed(2)
-        : 0,
-
-      inbound_calls_total: inbound_calls_total.length,
-      inbound_calls_answer: inbound_calls_answer.length,
-      IBAR,
-      thirty_plus_minutes_to_respond,
-      with_in_15_minutes,
-      total_leads_reviewed,
-      percentage_of_leads_w_thirty_plus_mins,
-      percentage_of_leads_with_in_fifteen_mins,
-    };
+    const { data: reports, isLoading } = useQuery({
+    queryKey: ["qc-report", startDate, endDate, clinicIds],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get("/qc-report", {
+        params: {
+          from: startDate,
+          to: endDate,
+          clinicIds: JSON.stringify(clinicIds),
+          selected: JSON.stringify(selected),
+        },
+      });
+      return data;
+    },
+    //   enabled: !loading && !!user && !!clinics,
   });
+  // console.log(reports);
 
-  if (opporLoading || convLoading) return <Loading />;
+  if (isLoading) return <Loading></Loading>;
 
   const columns = [
     columnHelper.accessor("office", {
-      cell: (info) => <span>{info.getValue()}</span>,
+      cell: (info) => <span className="text-nowrap">{info.getValue()}</span>,
       header: "Office",
     }),
 
     columnHelper.accessor("setter", {
-      cell: (info) => <span>{info.getValue()}</span>,
+      cell: (info) => <span className="text-nowrap">{info.getValue()}</span>,
       header: "setter",
     }),
 
@@ -272,7 +285,7 @@ const QCReport = () => {
       header: "set/day",
     }),
     columnHelper.accessor("lead_to_schedule_ratio", {
-      cell: (info) => <span>{info.getValue()}</span>,
+      cell: (info) => <span>{info.getValue()}%</span>,
       header: "lead to schedule ratio",
     }),
     columnHelper.accessor("inbound_calls_total", {
@@ -286,7 +299,7 @@ const QCReport = () => {
     columnHelper.accessor("IBAR", {
       cell: (info) => (
         <span
-          className={`${info.getValue() <= 20 ? "bg-red-200" : ""} inline-block px-2 py-0.5`}
+          className={`${info.getValue() <= 80 ? "bg-red-200" : ""} inline-block px-2 py-0.5`}
         >
           {info.getValue()}%
         </span>
@@ -371,7 +384,7 @@ const QCReport = () => {
         </div>
       </div>
 
-      <div className="overflow-hidden max-w-[calc(100vw-305px)]">
+      <div className="">
         <Table columns={columns} data={reports || []}></Table>
       </div>
     </div>

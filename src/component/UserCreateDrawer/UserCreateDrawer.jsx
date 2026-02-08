@@ -78,6 +78,7 @@ const UserCreateDrawer = ({ open, onClose, initialValues, refetch_users }) => {
     } catch (error) {
       toast.error(error.response.data.error);
       setLoading(false);
+      setStep(1); 
       onClose();
     }
   };

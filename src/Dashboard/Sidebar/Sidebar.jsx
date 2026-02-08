@@ -58,6 +58,7 @@ const Sidebar = ({ toggle, setToggle }) => {
                 (rout.label === "Master Dashboard" && perms.masterDashboard) ||
                 (rout.label === "KPIs Report" && perms.KPIsReport) ||
                 (rout.label === "QC Report" && perms.QCReport) ||
+                (rout.label === "CDR Report" && perms.CDRReport) ||
                 (rout.label === "Admin" && perms.admin);
 
               if (!canRender) return null;

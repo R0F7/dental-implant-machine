@@ -9,6 +9,8 @@ export const clinicInitialValue = {
   authorization: "",
   userID: "",
 
+  calendarID: [""],
+
   conversion_pipelines: [{ name: "", id: "" }],
   booking_pipelines: [{ name: "", id: "" }],
   showing_pipelines: [{ name: "", id: "" }],

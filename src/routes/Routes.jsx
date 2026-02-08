@@ -1,8 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
-import Home from "../Dashboard/page/Home/Home";
-import MasterReport from "../Dashboard/page/MasterReport/MasterReport";
-import AmberAlerts from "../Dashboard/page/AmberAlerts/AmberAlerts";
 import Users from "../Dashboard/page/Admin/Users/Users";
 import Roles from "../Dashboard/page/Admin/Roles/Roles";
 import RowSettings from "../Dashboard/page/Admin/RowSettings/RowSettings";
@@ -11,11 +8,10 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import Profile from "@/Dashboard/page/Profile/Profile";
 import AddClinic from "@/Dashboard/page/Admin/AddClinic/AddClinic";
-import AddUrl from "@/Dashboard/page/Admin/AddUrl/AddUrl";
-import MasterDashboard from "@/Dashboard/page/MasterDashboard/MasterDashboard";
 import KPIsReport from "@/Dashboard/page/KPIsReport/KPIsReport";
 import KPIsReportTableFull from "@/Dashboard/page/KPIsReportTableFull/KPIsReportTableFull";
 import QCReport from "@/Dashboard/page/QCReport/QCReport";
+import CDRReport from "@/Dashboard/page/CDRReport/CDRReport";
 
 export const router = createBrowserRouter([
   {
@@ -27,26 +23,13 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <KPIsReport></KPIsReport> },
-      // { index: true, element: <Home></Home> },
-      // {
-      //   path: "master-report",
-      //   element: <MasterReport></MasterReport>,
-      // },
-      // {
-      //   path: "master-dashboard",
-      //   element: <MasterDashboard></MasterDashboard>,
-      // },
-      // {
-      //   path: "amber-alerts",
-      //   element: <AmberAlerts></AmberAlerts>,
-      // },
-      // {
-      //   path: "kpis-report",
-      //   element: <KPIsReport></KPIsReport>,
-      // },
       {
         path: "QC-report",
         element: <QCReport></QCReport>,
+      },
+      {
+        path: "CDR-report",
+        element: <CDRReport></CDRReport>,
       },
       {
         path: "users",
@@ -56,10 +39,6 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-      // {
-      //   path:"/KPIs-report",
-      //   element: <KPIsReport></KPIsReport>
-      // },
       {
         path: "roles",
         element: (
@@ -81,14 +60,6 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AddClinic></AddClinic>
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "add-url",
-        element: (
-          <AdminRoute>
-            <AddUrl></AddUrl>
           </AdminRoute>
         ),
       },

@@ -241,6 +241,10 @@ const AddClinic = () => {
                 ></Input>
 
                 <div className="col-span-4">
+                  <CalendarID form={form} />
+                </div>
+
+                <div className="col-span-4">
                   <PipelineFieldArray
                     name="conversion_pipelines"
                     label="Conversion Rate Pipelines Stage ID"

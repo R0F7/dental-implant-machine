@@ -22,16 +22,16 @@ const KPIsReportTable = ({ data }) => {
 
     columnHelper.accessor("avgCall", {
       cell: ({ getValue }) => {
-        const { days, hours, minutes } = getValue();
-        return <span>{`${days}d ${hours}h ${minutes}m`}</span>;
+        const { days, hours, minutes, seconds } = getValue();
+        return <span>{`${days}d ${hours}h ${minutes}m ${seconds}s`}</span>;
       },
       header: "Avg Lead Call Response Time",
     }),
 
     columnHelper.accessor("avgSms", {
       cell: ({ getValue }) => {
-        const { days, hours, minutes } = getValue();
-        return <span>{`${days}d ${hours}h ${minutes}m`}</span>;
+        const { days, hours, minutes, seconds } = getValue();
+        return <span>{`${days}d ${hours}h ${minutes}m ${seconds}s`}</span>;
       },
       header: "Avg Lead SMS Response Time",
     }),

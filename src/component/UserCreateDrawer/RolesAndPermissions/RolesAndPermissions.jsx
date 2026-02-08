@@ -4,7 +4,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { PiAsterisk } from "react-icons/pi";
 import PermissionGroup from "./PermissionGroup/PermissionGroup";
-// import { rolePermissions } from "./rolePermissions";
 import useGetSecureData from "@/hooks/useGetSecureData";
 
 const RolesAndPermissions = ({ form }) => {
@@ -37,17 +36,14 @@ const RolesAndPermissions = ({ form }) => {
       dashboardSubs: {
         leadsOverTime: checked,
         goalAchievement: checked,
-        masterReportOverview: checked,
       },
       admin: isAdmin ? checked : false,
       adminSubs: isAdmin
         ? { users: checked, roles: checked, rowLevelSettings: checked }
         : { users: false, roles: false, rowLevelSettings: false },
-      // amberAlerts: checked,
-      // masterReport: checked,
-      // masterDashboard: checked,
       KPIsReport: checked,
       QCReport: checked,
+      CDRReport: checked,
     };
     setFieldValue("permissions", basePermissions);
   };
@@ -65,15 +61,12 @@ const RolesAndPermissions = ({ form }) => {
       dashboardSubs: {
         leadsOverTime: false,
         goalAchievement: false,
-        masterReportOverview: false,
       },
       admin: false,
       adminSubs: { users: false, roles: false, rowLevelSettings: false },
-      // amberAlerts: false,
-      // masterReport: false,
-      // masterDashboard: false,
       KPIsReport: false,
       QCReport: false,
+      CDRReport: false,
     };
 
     const updatedPermissions = {
@@ -145,7 +138,7 @@ const RolesAndPermissions = ({ form }) => {
             subPermissions={[
               "leadsOverTime",
               "goalAchievement",
-              "masterReportOverview",
+              // "masterReportOverview",
             ]}
           />
 
@@ -160,35 +153,6 @@ const RolesAndPermissions = ({ form }) => {
               subPermissions={["users", "roles", "rowLevelSettings"]}
             />
           )}
-
-          {/* Amber Alerts */}
-          {/* <label className="h-[54px] text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
-            <Checkbox
-              checked={permissions.amberAlerts}
-              onCheckedChange={(val) => handlePermission("amberAlerts", val)}
-            />
-            Amber Alerts
-          </label> */}
-
-          {/* Master Report */}
-          {/* <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
-            <Checkbox
-              checked={permissions.masterReport}
-              onCheckedChange={(val) => handlePermission("masterReport", val)}
-            />
-            Master Report
-          </label> */}
-
-          {/* Master Dashboard */}
-          {/* <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
-            <Checkbox
-              checked={permissions.masterDashboard}
-              onCheckedChange={(val) =>
-                handlePermission("masterDashboard", val)
-              }
-            />
-            Master Dashboard
-          </label> */}
 
           {/* KPIsReport */}
           <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
@@ -207,17 +171,24 @@ const RolesAndPermissions = ({ form }) => {
             />
             QC Report
           </label>
+
+          {/* CDRReport */}
+          <label className="text-[#111827] text-sm font-semibold flex items-center gap-2 border rounded-md shadow p-4">
+            <Checkbox
+              checked={permissions.CDRReport}
+              onCheckedChange={(val) => handlePermission("CDRReport", val)}
+            />
+            CDR Report
+          </label>
         </div>
       </div>
 
       <div className="mt-7">
         {!permissions.selectAll &&
-          !permissions.dashboard &&
           !permissions.admin &&
-          // !permissions.amberAlerts &&
-          // !permissions.masterReport &&
           !permissions.KPIsReport &&
-          !permissions.QCReport && (
+          !permissions.QCReport && 
+          !permissions.CDRReport && (
             <Notice bg={"#FEFCE8"} type={"Warning"} color={"#854D0E"}>
               No permissions are currently selected. At least one permission
               must be assigned to create/update the user.

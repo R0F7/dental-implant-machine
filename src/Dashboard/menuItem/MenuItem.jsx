@@ -32,7 +32,7 @@ const MenuItem = ({ address, icon: Icon, label, toggle, children, id }) => {
         <Icon lassName="w-4 h-4 border" size={16} />
       </i>
       <h4
-        className={`text-sm text-nowrap ${
+        className={`text-sm text-nowrap translate-y-1 ${
           toggle ? "opacity-0" : "opacity-100"
         }`}
       >
